@@ -12,6 +12,7 @@ export interface CartItem {
 interface CartContextValue {
   items: CartItem[];
   addItem: (product: Product, quantity?: number) => void;
+  updateQuantity: (id: number, quantity: number) => void;
   removeItem: (id: number) => void;
   clear: () => void;
   total: number;
@@ -43,6 +44,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
+  const updateQuantity = (id: number, quantity: number) => {
+    if (quantity < 1) {
+      setItems(prev => prev.filter(i => i.id !== id));
+      return;
+    }
+    setItems(prev => prev.map(i => i.id === id ? { ...i, quantity } : i));
+  };
+
   const removeItem = (id: number) => setItems(prev => prev.filter(i => i.id !== id));
   const clear = () => setItems([]);
 
@@ -50,7 +59,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const count = useMemo(() => items.reduce((sum, i) => sum + i.quantity, 0), [items]);
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, clear, total, count }}>
+    <CartContext.Provider value={{ items, addItem, updateQuantity, removeItem, clear, total, count }}>
       {children}
     </CartContext.Provider>
   );

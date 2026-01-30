@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, ShoppingCart, Menu, X, Heart, User } from "lucide-react";
+import { Search, ShoppingCart, Menu, X, Heart, User, Download } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
 import { SearchModal } from "./SearchModal";
@@ -24,6 +24,28 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
     v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   const { items, total, clear, count } = useCart();
   const { count: favoritesCount } = useFavorites();
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") {
+      setShowInstallBtn(false);
+    }
+    setDeferredPrompt(null);
+  };
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +120,18 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
               {/* Right Actions */}
               {variant === "default" && (
                 <div className="flex items-center gap-6">
+                  {/* Install App */}
+                  {showInstallBtn && (
+                    <button
+                      onClick={handleInstallClick}
+                      className="text-gray-600 hover:text-primary transition-colors flex items-center gap-2 text-sm font-medium"
+                      title="Instalar Aplicativo"
+                    >
+                      <Download className="w-6 h-6" />
+                      <span className="hidden xl:inline">Instalar App</span>
+                    </button>
+                  )}
+
                   {/* Wishlist */}
                   <Link
                     to="/wishlist"
@@ -258,6 +292,17 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
             {/* Right Icons */}
             {variant === "default" && (
               <div className="flex items-center gap-3 sm:gap-4">
+                {/* Install App Mobile */}
+                {showInstallBtn && (
+                  <button
+                    onClick={handleInstallClick}
+                    className="text-gray-700 hover:text-primary transition-colors p-2"
+                    title="Instalar App"
+                  >
+                    <Download className="w-5 h-5 sm:w-6 sm:h-6" />
+                  </button>
+                )}
+
                 {/* Search Icon */}
                 <button
                   onClick={() => setMobileSearchOpen(true)}

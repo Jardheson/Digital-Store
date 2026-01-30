@@ -41,15 +41,17 @@ export const ProductViewPage: React.FC = () => {
   const handlePrevImage = () => {
     if (!product) return;
     const images = [...product.images, ...product.images, ...product.images, ...product.images, ...product.images].slice(0, 5);
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    setSelectedImage(images[prev === 0 ? images.length - 1 : prev - 1]);
+    const newIndex = currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;
+    setCurrentImageIndex(newIndex);
+    setSelectedImage(images[newIndex]);
   };
 
   const handleNextImage = () => {
     if (!product) return;
     const images = [...product.images, ...product.images, ...product.images, ...product.images, ...product.images].slice(0, 5);
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    setSelectedImage(images[prev === images.length - 1 ? 0 : prev + 1]);
+    const newIndex = currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1;
+    setCurrentImageIndex(newIndex);
+    setSelectedImage(images[newIndex]);
   };
 
   if (!product) return <div className="p-10 text-center">Carregando...</div>;

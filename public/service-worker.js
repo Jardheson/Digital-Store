@@ -4,9 +4,9 @@ const urlsToCache = [
   '/index.html',
   '/src/index.css',
   '/src/main.tsx',
-  '/public/logo.png',
-  '/public/logo.svg',
-  '/public/logo2.svg',
+  '/logo.png',
+  '/logo.svg',
+  '/logo2.svg',
   '/offline.html'
 ];
 
