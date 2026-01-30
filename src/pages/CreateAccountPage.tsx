@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
+import { Header } from '../components/Layout/Header';
+import { Footer } from '../components/Layout/Footer';
 
 export const CreateAccountPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -97,7 +97,7 @@ export const CreateAccountPage: React.FC = () => {
             {/* Image Section */}
             <div className="hidden lg:flex justify-end items-center">
               <img
-                src="/produc-image-4-.png"
+                src="/images/products/produc-image-4-.png"
                 alt="Tênis"
                 className="w-full max-w-md drop-shadow-2xl"
               />

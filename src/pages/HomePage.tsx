@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from '../types/Product';
 import { getProducts } from '../services/api';
-import { ProductCard } from '../components/ProductCard';
+import { ProductCard } from '../components/Product/ProductCard';
 import { ArrowRight } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
@@ -41,7 +41,7 @@ export const HomePage: React.FC = () => {
           </div>
           <div className="lg:w-1/2 relative mb-4 lg:mb-0">
             <img
-              src="/White-Sneakers-PNG-Clipart 1.png"
+              src="/images/products/White-Sneakers-PNG-Clipart 1.png"
               alt="Nike Shoe"
               className="w-full max-w-[300px] md:max-w-[620px] object-contain drop-shadow-2xl translate-x-[12px] lg:translate-x-[88px]"
             />
@@ -79,7 +79,7 @@ export const HomePage: React.FC = () => {
                 Comprar
               </Link>
               <img
-                src="/star-wars-storm.png"
+                src="/images/products/star-wars-storm.png"
                 className="absolute bottom-0 right-0 h-full object-contain group-hover:scale-105 transition-transform"
                 alt="Supreme"
               />
@@ -95,7 +95,7 @@ export const HomePage: React.FC = () => {
                 Comprar
               </button>
               <img
-                src="/ddd 1.png"
+                src="/images/icons/ddd 1.png"
                 className="absolute bottom-0 right-0 h-full object-contain group-hover:scale-105 transition-transform"
                 alt="Adidas"
               />
@@ -111,7 +111,7 @@ export const HomePage: React.FC = () => {
                 Comprar
               </button>
               <img
-                src="/collection-3.png"
+                src="/images/products/collection-3.png"
                 className="absolute bottom-0 right-0 h-full object-contain group-hover:scale-105 transition-transform"
                 alt="Beats"
               />
@@ -123,8 +123,8 @@ export const HomePage: React.FC = () => {
           </h2>
           <div className="flex flex-wrap justify-center gap-4 md:gap-8 lg:gap-16">
             {[
-              { label: "Camisetas", svg: <img src="/tshirt-_1_.svg" alt="" /> },
-              { label: "Calças", svg: <img src="/pants.svg" alt="" /> },
+              { label: "Camisetas", svg: <img src="/images/icons/tshirt-_1_.svg" alt="" /> },
+              { label: "Calças", svg: <img src="/images/icons/pants.svg" alt="" /> },
               {
                 label: "Bonés",
                 svg: (
@@ -143,9 +143,9 @@ export const HomePage: React.FC = () => {
               },
               {
                 label: "Headphones",
-                svg: <img src="/headphones_1.svg" alt="" />,
+                svg: <img src="/images/icons/headphones_1.svg" alt="" />,
               },
-              { label: "Tênis", svg: <img src="/sneakers.svg" alt="" /> },
+              { label: "Tênis", svg: <img src="/images/icons/sneakers.svg" alt="" /> },
             ].map((item, idx) => (
               <Link
                 to={`/products?category=${item.label}`}
@@ -196,12 +196,12 @@ export const HomePage: React.FC = () => {
         <div className="mx-auto max-w-[1120px] px-4 flex flex-col md:flex-row items-center gap-6 md:gap-10">
           <div className="md:w-1/2 relative h-[200px] md:h-[340px] lg:h-[400px] w-full">
             <img
-              src="/Ellipse11.png"
+              src="/images/ui/Ellipse11.png"
               alt="Ellipse"
               className="absolute w-[300px] md:w-[520px] h-[300px] md:h-[520px] top-[50%] left-[46%] -translate-x-1/2 -translate-y-1/2 opacity-100 z-0 pointer-events-none select-none"
             />
             <img
-              src="/Laye 1.png"
+              src="/images/products/Laye 1.png"
               alt="Layer 1"
               className="absolute w-[350px] md:w-[640px] lg:w-[660px] h-auto top-[-20px] left-[-40px] md:left-[-20px] opacity-100 rotate-0 z-10 pointer-events-none select-none drop-shadow-2xl"
             />

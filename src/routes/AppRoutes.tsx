@@ -20,7 +20,7 @@ import { FavoritesPage } from '../pages/FavoritesPage';
 import { PaymentMethodsPage } from '../pages/PaymentMethodsPage';
 import { ForgotPasswordPage } from '../pages/ForgotPasswordPage';
 import { OrderDetailsPage } from '../pages/OrderDetailsPage';
-import { ScrollToTop } from '../components/ScrollToTop';
+import { ScrollToTop } from '../components/Layout/ScrollToTop';
 
 export const AppRoutes: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFavorites } from '../context/FavoritesContext';
-import { ProductCard } from '../components/ProductCard';
+import { ProductCard } from '../components/Product/ProductCard';
 import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 

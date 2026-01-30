@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import type { Product } from '../types/Product';
 import { getProductById, getProducts } from '../services/api';
-import { ProductCard } from '../components/ProductCard';
+import { ProductCard } from '../components/Product/ProductCard';
 import { Star, ChevronRight, ChevronLeft, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 

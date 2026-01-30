@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
-import { BottomNav } from '../components/BottomNav';
+import { Header } from '../components/Layout/Header';
+import { Footer } from '../components/Layout/Footer';
+import { BottomNav } from '../components/Layout/BottomNav';
 
 export const MainLayout: React.FC = () => {
   return (

@@ -4,7 +4,7 @@ import { CartProvider } from './context/CartContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { PWAProvider, usePWA } from './context/PWAContext';
 import { PWAUpdateManager } from './utils/pwaUpdateManager';
-import { Download, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import './index.css';
 
 const InstallBanner = () => {
@@ -16,7 +16,7 @@ const InstallBanner = () => {
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-2xl p-4 z-50 md:hidden animate-slide-up">
       <div className="flex items-center gap-4">
         <div className="bg-primary/10 p-2 rounded-lg shrink-0">
-          <img src="/logo-header.svg" alt="Logo" className="w-8 h-8 object-contain" />
+          <img src="/images/icons/logo-header.svg" alt="Logo" className="w-8 h-8 object-contain" />
         </div>
         <div className="flex-1">
           <h3 className="font-bold text-gray-800 text-sm">Baixe o App Digital Store</h3>

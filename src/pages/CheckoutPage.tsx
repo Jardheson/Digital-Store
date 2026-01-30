@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { ProductCard } from '../components/ProductCard';
+import { ProductCard } from '../components/Product/ProductCard';
 import { getProducts } from '../services/api';
 import type { Product } from '../types/Product';
 import { ArrowRight } from 'lucide-react';

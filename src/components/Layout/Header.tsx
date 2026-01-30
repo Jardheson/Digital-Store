@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, ShoppingCart, Menu, X, Heart, User, Download } from "lucide-react";
-import { useCart } from "../context/CartContext";
-import { useFavorites } from "../context/FavoritesContext";
-import { SearchModal } from "./SearchModal";
+import { useCart } from "../../context/CartContext";
+import { useFavorites } from "../../context/FavoritesContext";
+import { usePWA } from "../../context/PWAContext";
+import { SearchModal } from "../UI/SearchModal";
 
 type HeaderVariant = "default" | "auth";
 
@@ -24,28 +25,7 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
     v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   const { items, total, clear, count } = useCart();
   const { count: favoritesCount } = useFavorites();
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
-  const [showInstallBtn, setShowInstallBtn] = useState(false);
-
-  useEffect(() => {
-    const handler = (e: any) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setShowInstallBtn(true);
-    };
-    window.addEventListener("beforeinstallprompt", handler);
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
-
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") {
-      setShowInstallBtn(false);
-    }
-    setDeferredPrompt(null);
-  };
+  const { showInstallPrompt, installApp } = usePWA();
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,9 +101,9 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
               {variant === "default" && (
                 <div className="flex items-center gap-6">
                   {/* Install App */}
-                  {showInstallBtn && (
+                  {showInstallPrompt && (
                     <button
-                      onClick={handleInstallClick}
+                      onClick={installApp}
                       className="text-gray-600 hover:text-primary transition-colors flex items-center gap-2 text-sm font-medium"
                       title="Instalar Aplicativo"
                     >

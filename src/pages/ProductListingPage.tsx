@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { Product, FilterOptions } from '../types/Product';
 import { getProducts } from '../services/api';
-import { ProductCard } from '../components/ProductCard';
-import { FilterSidebar } from '../components/FilterSidebar';
+import { ProductCard } from '../components/Product/ProductCard';
+import { FilterSidebar } from '../components/Product/FilterSidebar';
 import { ChevronDown, Filter, X } from 'lucide-react';
 
 export const ProductListingPage: React.FC = () => {

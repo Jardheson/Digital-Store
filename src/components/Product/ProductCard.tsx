@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import type { Product } from '../../types/Product';
+import { useFavorites } from '../../context/FavoritesContext';
 import { Heart } from 'lucide-react';
-import { useFavorites } from '../context/FavoritesContext';
-import type { Product } from '../types/Product';
 
 interface ProductCardProps {
   product: Product;

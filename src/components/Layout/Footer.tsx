@@ -19,13 +19,13 @@ export const Footer: React.FC = () => {
           <div className="flex gap-3 md:gap-4">
             {/* Social Icons Placeholders */}
             <div className="w-5 h-5 md:w-6 md:h-6 rounded-full">
-              <img src="/Facebook.svg" alt="" />
+              <img src="/images/icons/Facebook.svg" alt="" />
             </div>
             <div className="w-5 h-5 md:w-6 md:h-6 rounded-full">
-              <img src="/Instagram.svg" alt="" />
+              <img src="/images/icons/Instagram.svg" alt="" />
             </div>
             <div className="w-5 h-5 md:w-6 md:h-6 rounded-full">
-              <img src="/Twitter.svg" alt="" />
+              <img src="/images/icons/Twitter.svg" alt="" />
             </div>
           </div>
         </div>

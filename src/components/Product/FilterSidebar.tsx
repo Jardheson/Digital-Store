@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FilterOptions } from '../types/Product';
+import type { FilterOptions } from '../../types/Product';
 
 interface FilterSidebarProps {
   filters: FilterOptions;
