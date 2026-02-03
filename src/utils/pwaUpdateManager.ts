@@ -8,13 +8,12 @@ export class PWAUpdateManager {
   init(onUpdateAvailable?: (hasUpdate: boolean) => void) {
     this.updateSW = registerSW({
       onNeedRefresh() {
-        console.log('Nova versão disponível (PWA)');
         if (onUpdateAvailable) {
           onUpdateAvailable(true);
         }
       },
       onOfflineReady() {
-        console.log('App pronto para uso offline');
+        // App ready for offline use
       },
       onRegisterError(error) {
         console.error('Erro ao registrar Service Worker:', error);

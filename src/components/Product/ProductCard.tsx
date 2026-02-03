@@ -20,7 +20,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, badge, disabl
       <Link to={`/products/${product.id}`} className="absolute inset-0 z-0" aria-label={`Ver detalhes de ${product.name}`} />
       
       <div className="bg-white rounded overflow-hidden shadow-sm group-hover:shadow-md transition-shadow h-full flex flex-col relative z-10 pointer-events-none">
-        <div className="relative aspect-square bg-white flex items-center justify-center p-4">
+        <div className="relative aspect-square bg-white flex items-center justify-center">
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -49,20 +49,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, badge, disabl
             <img 
                 src={product.images[0]} 
                 alt={product.name} 
-                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
         </div>
         <div className="p-4 flex-1 flex flex-col">
           <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">{product.category}</span>
-          <h3 className="text-gray-text text-lg font-normal my-1 line-clamp-2 group-hover:text-primary transition-colors">{product.name}</h3>
+          <h3 className="text-gray-text text-sm md:text-lg font-normal my-1 line-clamp-2 group-hover:text-primary transition-colors">{product.name}</h3>
           <div className="flex items-center gap-2 mt-auto">
             {priceDiscount < product.price ? (
                 <>
-                    <span className="text-gray-400 line-through text-lg">${product.price}</span>
-                    <span className="text-gray-800 font-bold text-lg">${priceDiscount}</span>
+                    <span className="text-gray-400 line-through text-sm md:text-lg">${product.price}</span>
+                    <span className="text-gray-800 font-bold text-sm md:text-lg">${priceDiscount}</span>
                 </>
             ) : (
-                <span className="text-gray-800 font-bold text-lg">${product.price}</span>
+                <span className="text-gray-800 font-bold text-sm md:text-lg">${product.price}</span>
             )}
           </div>
         </div>

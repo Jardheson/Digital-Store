@@ -48,7 +48,9 @@ export const MyInfoPage: React.FC = () => {
                 <li className="px-4 py-3 font-bold text-primary">
                   <Link to="/orders/info" className="text-primary">Minhas Informações</Link>
                 </li>
-                <li className="px-4 py-3 text-gray-700">Métodos de Pagamento</li>
+                <li className="px-4 py-3 text-gray-700">
+                  <Link to="/orders/payments" className="hover:text-primary">Métodos de Pagamento</Link>
+                </li>
               </ul>
             </div>
           </aside>

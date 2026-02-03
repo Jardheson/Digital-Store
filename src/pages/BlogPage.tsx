@@ -35,7 +35,7 @@ export const BlogPage: React.FC = () => {
       category: 'Tendências',
       author: 'Maria Silva',
       date: '15 de janeiro de 2026',
-      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop',
+      image: '/images/slides/home-slide-1.jpeg',
       readTime: '5 min de leitura'
     },
     {
@@ -46,7 +46,7 @@ export const BlogPage: React.FC = () => {
       category: 'Dicas',
       author: 'João Costa',
       date: '14 de janeiro de 2026',
-      image: 'https://images.unsplash.com/photo-1490578474895-699cd4e2cf6f?w=600&h=400&fit=crop',
+      image: '/images/slides/home-slide-2.jpeg',
       readTime: '4 min de leitura'
     },
     {
@@ -57,7 +57,7 @@ export const BlogPage: React.FC = () => {
       category: 'Estilo de Vida',
       author: 'Ana Paula',
       date: '12 de janeiro de 2026',
-      image: 'https://images.unsplash.com/photo-1441986300352-7e3dee3f5d4f?w=600&h=400&fit=crop',
+      image: '/images/slides/home-slide-3.jpeg',
       readTime: '6 min de leitura'
     },
     {
@@ -68,7 +68,7 @@ export const BlogPage: React.FC = () => {
       category: 'Notícias',
       author: 'Digital Store',
       date: '10 de janeiro de 2026',
-      image: 'https://images.unsplash.com/photo-1539533057440-7bf6b1c9a53e?w=600&h=400&fit=crop',
+      image: '/images/slides/home-slide-4.jpeg',
       readTime: '3 min de leitura'
     },
     {
@@ -79,7 +79,7 @@ export const BlogPage: React.FC = () => {
       category: 'Dicas',
       author: 'Carolina Lima',
       date: '8 de janeiro de 2026',
-      image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=600&h=400&fit=crop',
+      image: '/images/slides/home-slide-5.jpeg',
       readTime: '5 min de leitura'
     },
     {
@@ -90,7 +90,7 @@ export const BlogPage: React.FC = () => {
       category: 'Moda',
       author: 'Designer Rafael',
       date: '5 de janeiro de 2026',
-      image: 'https://images.unsplash.com/photo-1529148482759-b8610c1d5c86?w=600&h=400&fit=crop',
+      image: '/images/slides/home-slide-6.jpeg',
       readTime: '7 min de leitura'
     }
   ];

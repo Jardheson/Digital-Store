@@ -84,29 +84,29 @@ export const Footer: React.FC = () => {
           </h3>
           <ul className="space-y-2 md:space-y-3 text-gray-300 text-xs md:text-sm">
             <li>
-              <a href="#" className="hover:text-primary">
+              <Link to="/products?category=Camisetas" className="hover:text-primary">
                 Camisetas
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-primary">
+              <Link to="/products?category=Calças" className="hover:text-primary">
                 Calças
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-primary">
+              <Link to="/products?category=Bonés" className="hover:text-primary">
                 Bonés
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-primary">
+              <Link to="/products?category=Headphones" className="hover:text-primary">
                 Headphones
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#" className="hover:text-primary">
+              <Link to="/products?category=Tênis" className="hover:text-primary">
                 Tênis
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

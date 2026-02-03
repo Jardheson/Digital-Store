@@ -113,7 +113,7 @@ export const ProductListingPage: React.FC = () => {
          </div>
 
          {/* Desktop Header */}
-         <div className="hidden md:flex flex-row justify-between items-center mb-8 gap-4">
+         <div className="hidden lg:flex flex-row justify-between items-center mb-8 gap-4">
              <div className="text-gray-800">
                 <span className="font-bold">
                   {filterParam
@@ -140,12 +140,12 @@ export const ProductListingPage: React.FC = () => {
              </div>
          </div>
 
-         <div className="flex flex-col md:flex-row gap-8">
-            <div className="hidden md:block">
+         <div className="flex flex-col lg:flex-row gap-8">
+            <div className="hidden lg:block w-64 shrink-0">
                 <FilterSidebar filters={filters} setFilters={setFilters} />
             </div>
             <div className="flex-1">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
                     {filteredProducts.map(product => (
                         <ProductCard key={product.id} product={product} />
                     ))}
@@ -156,8 +156,12 @@ export const ProductListingPage: React.FC = () => {
 
       {/* Mobile Filter Modal */}
       {isFilterOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-end">
-            <div className="w-full max-w-xs bg-white h-full overflow-y-auto p-4 animate-slide-in-right flex flex-col">
+        <div className="fixed inset-0 z-50 flex justify-start">
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setIsFilterOpen(false)}></div>
+            
+            {/* Sidebar Content */}
+            <div className="relative w-full max-w-xs bg-white h-full overflow-y-auto p-4 animate-slide-in-left flex flex-col z-10">
                 <div className="flex justify-between items-center mb-4 pb-4 border-b">
                     <h3 className="font-bold text-lg text-gray-800">Filtrar por</h3>
                     <button onClick={() => setIsFilterOpen(false)} className="text-gray-500 p-2">

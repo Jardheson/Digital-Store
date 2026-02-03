@@ -71,14 +71,14 @@ export const ProductViewPage: React.FC = () => {
                     <button onClick={handlePrevImage} className="absolute left-0 top-1/2 -translate-y-1/2 p-4 text-gray-800 hover:text-primary transition-colors"><ChevronLeft className="w-8 h-8" /></button>
                     <button onClick={handleNextImage} className="absolute right-0 top-1/2 -translate-y-1/2 p-4 text-gray-800 hover:text-primary transition-colors"><ChevronRight className="w-8 h-8" /></button>
                 </div>
-                <div className="flex gap-4 overflow-x-auto pb-2 justify-between">
+                <div className="flex gap-4 overflow-x-auto pb-2 justify-start md:justify-between scrollbar-hide">
                     {/* Mocking multiple images with different backgrounds to match mock */}
                     {[...product.images, ...product.images, ...product.images, ...product.images, ...product.images].slice(0, 5).map((img, idx) => {
                         const bgColors = ['bg-[#E2E3FF]', 'bg-[#FFE8E8]', 'bg-[#FFF0E6]', 'bg-[#E6F3FF]', 'bg-[#E2E3FF]'];
                         return (
                             <div 
                                 key={idx} 
-                                className={`w-28 h-28 ${bgColors[idx % bgColors.length]} rounded flex-shrink-0 flex items-center justify-center cursor-pointer border-2 ${currentImageIndex === idx ? 'border-primary' : 'border-transparent'}`}
+                                className={`w-20 h-20 md:w-28 md:h-28 ${bgColors[idx % bgColors.length]} rounded flex-shrink-0 flex items-center justify-center cursor-pointer border-2 ${currentImageIndex === idx ? 'border-primary' : 'border-transparent'}`}
                                 onClick={() => {
                                     setSelectedImage(img);
                                     setCurrentImageIndex(idx);
@@ -170,7 +170,7 @@ export const ProductViewPage: React.FC = () => {
                  <h2 className="text-2xl font-bold text-gray-800">Produtos Relacionados</h2>
                  <Link to="/products" className="text-primary hover:underline flex items-center gap-1 font-bold">Ver todos <ArrowRight className="w-5 h-5"/></Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 {relatedProducts.map((p, idx) => (
                     <ProductCard 
                         key={`${p.id}-${idx}`} 

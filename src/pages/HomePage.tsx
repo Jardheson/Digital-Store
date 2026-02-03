@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { Product } from '../types/Product';
 import { getProducts } from '../services/api';
+import { HeroCarousel } from '../components/Home/HeroCarousel';
 import { ProductCard } from '../components/Product/ProductCard';
 import { ArrowRight } from 'lucide-react';
 
@@ -17,49 +18,9 @@ export const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-light-gray relative">
+    <div className="bg-light-gray relative min-h-screen">
       {/* Hero Section */}
-      <section className="bg-light-gray relative overflow-hidden py-8 lg:py-20">
-        <div className="mx-auto max-w-[1120px] px-4 flex flex-col-reverse lg:flex-row items-center justify-between">
-          <div className="lg:w-1/2 space-y-4 md:space-y-6 z-10">
-            <span className="text-warning text-yellow-500 font-bold tracking-wide text-xs md:text-base">
-              Melhores ofertas personalizadas
-            </span>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-              Queima de <br /> estoque Nike 🔥
-            </h1>
-            <p className="text-gray-500 text-sm md:text-lg max-w-md">
-              Consequat culpa exercitation mollit nisi excepteur do do tempor
-              laboris eiusmod irure consectetur.
-            </p>                            
-            <Link
-              to="/products"
-              className="inline-block bg-primary text-white font-bold py-2 md:py-3 px-6 md:px-8 rounded hover:bg-pink-700 transition-colors text-sm md:text-base w-full md:w-auto text-center"
-            >
-              Ver Ofertas
-            </Link>
-          </div>
-          <div className="lg:w-1/2 relative mb-4 lg:mb-0">
-            <img
-              src="/images/products/White-Sneakers-PNG-Clipart 1.png"
-              alt="Tênis Nike Branco em destaque"
-              className="w-full max-w-[300px] md:max-w-[620px] object-contain drop-shadow-2xl translate-x-[12px] lg:translate-x-[88px]"
-            />
-            <img
-              src="/images/ui/Ornament11.png"
-              alt=""
-              aria-hidden="true"
-              className="absolute left-[200px] md:left-[600px] top-[2px] w-[80px] md:w-[140px] h-[80px] md:h-[140px] opacity-70"
-            />
-          </div>
-        </div>
-        <div className="mt-6 md:mt-8 flex justify-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-primary"></span>
-          <span className="w-2 h-2 rounded-full bg-gray-300"></span>
-          <span className="w-2 h-2 rounded-full bg-gray-300"></span>
-          <span className="w-2 h-2 rounded-full bg-gray-300"></span>
-        </div>
-      </section>
+      <HeroCarousel />
 
       {/* Collections Section */}
       <section className="py-12 md:py-16 bg-[#F9F8FE]">
@@ -122,22 +83,21 @@ export const HomePage: React.FC = () => {
           <h2 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6 text-center">
             Coleções em destaque
           </h2>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8 lg:gap-16">
+          <div className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-16 px-4 md:px-0">
             {[
-              { label: "Camisetas", svg: <img src="/images/icons/tshirt-_1_.svg" alt="Ícone Camisetas" /> },
-              { label: "Calças", svg: <img src="/images/icons/pants.svg" alt="Ícone Calças" /> },
+              { label: "Camisetas", svg: <img src="/images/icons/tshirt-_1_.svg" alt="Ícone Camisetas" className="w-8 h-8 md:w-12 md:h-12" /> },
+              { label: "Calças", svg: <img src="/images/icons/pants.svg" alt="Ícone Calças" className="w-8 h-8 md:w-12 md:h-12" /> },
               {
                 label: "Bonés",
                 svg: (
                   <svg
-                    width="48"
-                    height="48"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
                     aria-label="Ícone Bonés"
                     role="img"
+                    className="w-8 h-8 md:w-12 md:h-12"
                   >
                     <path d="M4 13a8 8 0 0116 0v2H4v-2z" />
                     <path d="M2 15h20" />
@@ -146,19 +106,19 @@ export const HomePage: React.FC = () => {
               },
               {
                 label: "Headphones",
-                svg: <img src="/images/icons/headphones_1.svg" alt="Ícone Headphones" />,
+                svg: <img src="/images/icons/headphones_1.svg" alt="Ícone Headphones" className="w-8 h-8 md:w-12 md:h-12" />,
               },
-              { label: "Tênis", svg: <img src="/images/icons/sneakers.svg" alt="Ícone Tênis" /> },
+              { label: "Tênis", svg: <img src="/images/icons/sneakers.svg" alt="Ícone Tênis" className="w-8 h-8 md:w-12 md:h-12" /> },
             ].map((item, idx) => (
               <Link
                 to={`/products?category=${item.label}`}
                 key={idx}
-                className="flex flex-col items-center gap-1 md:gap-2 group cursor-pointer"
+                className="flex flex-col items-center gap-2 md:gap-4 group cursor-pointer min-w-[80px] md:min-w-auto snap-center shrink-0"
               >
-                <div className="w-16 md:w-24 h-16 md:h-24 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all text-gray-400 group-hover:text-primary text-sm md:text-base">
+                <div className="w-20 h-20 md:w-28 md:h-28 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm group-hover:shadow-md transition-all text-gray-400 group-hover:text-primary">
                   {item.svg}
                 </div>
-                <span className="font-bold text-xs md:text-base text-gray-600 group-hover:text-primary transition-colors text-center">
+                <span className="font-bold text-sm md:text-base text-gray-800 group-hover:text-primary transition-colors text-center">
                   {item.label}
                 </span>
               </Link>
@@ -197,16 +157,16 @@ export const HomePage: React.FC = () => {
       {/* Special Offer Banner */}
       <section className="py-12 md:py-20 bg-white">
         <div className="mx-auto max-w-[1120px] px-4 flex flex-col md:flex-row items-center gap-6 md:gap-10">
-          <div className="md:w-1/2 relative h-[200px] md:h-[340px] lg:h-[400px] w-full">
+          <div className="md:w-1/2 relative h-[300px] md:h-[400px] lg:h-[450px] w-full">
             <img
               src="/images/ui/Ellipse11.png"
               alt="Ellipse"
-              className="absolute w-[300px] md:w-[520px] h-[300px] md:h-[520px] top-[50%] left-[46%] -translate-x-1/2 -translate-y-1/2 opacity-100 z-0 pointer-events-none select-none"
+              className="absolute w-[300px] md:w-[400px] lg:w-[520px] h-[300px] md:h-[400px] lg:h-[520px] top-[50%] left-[50%] md:left-[50%] lg:left-[46%] -translate-x-1/2 -translate-y-1/2 opacity-100 z-0 pointer-events-none select-none"
             />
             <img
               src="/images/products/Laye 1.png"
               alt="Layer 1"
-              className="absolute w-[350px] md:w-[640px] lg:w-[660px] h-auto top-[-20px] left-[-40px] md:left-[-20px] opacity-100 rotate-0 z-10 pointer-events-none select-none drop-shadow-2xl"
+              className="absolute w-[350px] md:w-[480px] lg:w-[660px] h-auto top-[50%] left-[50%] md:top-[50%] md:left-[50%] lg:top-[-20px] lg:left-[-20px] -translate-x-1/2 -translate-y-1/2 lg:translate-x-0 lg:translate-y-0 opacity-100 rotate-0 z-10 pointer-events-none select-none drop-shadow-2xl"
             />
           </div>
           <div className="md:w-1/2 space-y-4 md:space-y-6 lg:space-y-7">

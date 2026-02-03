@@ -31,7 +31,7 @@ export const BottomNav: React.FC = () => {
       icon: Heart,
     },
     {
-      path: '/checkout',
+      path: '/cart',
       label: 'Carrinho',
       icon: ShoppingCart,
       badge: count > 0 ? Math.min(99, count) : undefined,
@@ -44,8 +44,8 @@ export const BottomNav: React.FC = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 lg:hidden shadow-2xl safe-area-bottom">
-      <div className="flex items-stretch justify-between h-20 w-full">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] safe-area-bottom">
+      <div className="flex items-stretch justify-between h-16 w-full">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.path);
@@ -54,23 +54,23 @@ export const BottomNav: React.FC = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`flex-1 flex flex-col items-center justify-center gap-0.5 transition-all duration-300 relative group ${ 
+              className={`flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-200 relative group active:scale-95 ${ 
                 active
-                  ? 'text-primary bg-light-gray bg-opacity-30'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'text-primary'
+                  : 'text-gray-500 hover:text-gray-900'
               }`}
             >
               {/* Ícone com badge */}
               <div className="relative flex items-center justify-center">
                 <Icon
-                  className={`w-6 h-6 transition-all duration-300 ${
-                    active ? 'text-primary' : 'text-gray-600 group-hover:text-gray-900'
+                  className={`w-6 h-6 transition-transform duration-200 ${
+                    active ? 'scale-110 stroke-[2.5px]' : 'stroke-2'
                   }`}
                 />
 
                 {/* Badge do carrinho */}
                 {item.badge && item.badge > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg">
+                  <span className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm border border-white">
                     {item.badge}
                   </span>
                 )}
@@ -78,17 +78,12 @@ export const BottomNav: React.FC = () => {
 
               {/* Label */}
               <span
-                className={`text-xs font-semibold transition-all duration-300 whitespace-nowrap ${
-                  active ? 'text-primary' : 'text-gray-600 group-hover:text-gray-900'
+                className={`text-[10px] font-medium transition-colors duration-200 ${
+                  active ? 'text-primary' : 'text-gray-500'
                 }`}
               >
                 {item.label}
               </span>
-
-              {/* Indicador ativo */}
-              {active && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
-              )}
             </Link>
           );
         })}

@@ -4,6 +4,7 @@ import { CartProvider } from './context/CartContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { PWAProvider, usePWA } from './context/PWAContext';
 import { PWAUpdateManager } from './utils/pwaUpdateManager';
+import { SplashScreen } from './components/UI/SplashScreen';
 import { X, WifiOff } from 'lucide-react';
 import './index.css';
 
@@ -66,6 +67,7 @@ const InstallBanner = () => {
 };
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [hasUpdate, setHasUpdate] = useState(false);
   const [updateManager] = useState(() => new PWAUpdateManager());
 
@@ -82,10 +84,12 @@ function App() {
   };
 
   return (
-    <PWAProvider>
-      <FavoritesProvider>
-        <CartProvider>
-          {hasUpdate && (
+    <>
+      {isLoading && <SplashScreen onFinish={() => setIsLoading(false)} />}
+      <PWAProvider>
+        <FavoritesProvider>
+          <CartProvider>
+            {hasUpdate && (
             <div className="fixed bottom-20 md:bottom-4 right-4 bg-primary text-white p-4 rounded-lg shadow-lg z-50 max-w-sm animate-bounce">
               <div className="flex items-start justify-between">
                 <div>
@@ -101,12 +105,15 @@ function App() {
               </div>
             </div>
           )}
-          <InstallBanner />
-          <OfflineBanner />
-          <AppRoutes />
-        </CartProvider>
-      </FavoritesProvider>
-    </PWAProvider>
+            <InstallBanner />
+            <OfflineBanner />
+            <div className={`${isLoading ? 'opacity-0' : 'opacity-100 transition-opacity duration-700'}`}>
+              <AppRoutes />
+            </div>
+          </CartProvider>
+        </FavoritesProvider>
+      </PWAProvider>
+    </>
   );
 }
 

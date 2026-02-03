@@ -26,7 +26,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
   return (
     <aside className="w-full md:w-64 bg-white p-6 rounded shadow-sm h-fit">
-      <h3 className="font-bold text-gray-800 mb-4 border-b pb-2">Filtrar por</h3>
+      <h3 className="font-bold text-gray-800 mb-4 border-b pb-2 hidden md:block">Filtrar por</h3>
       
       <div className="mb-6">
         <h4 className="font-bold text-gray-700 mb-3 text-sm">Marca</h4>
@@ -34,16 +34,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           {['Adidas', 'Calenciaga', 'K-Swiss', 'Nike', 'Puma', 'Converse', 'Generic'].map(brand => {
             const isChecked = filters.brand?.includes(brand) || false;
             return (
-            <label key={brand} className={`flex items-center gap-2 text-sm cursor-pointer px-2 py-1 rounded ${
-              isChecked ? 'bg-primary bg-opacity-10 text-primary font-semibold' : 'text-gray-600'
-            }`}>
+            <label key={brand} className="flex items-center gap-2 text-sm cursor-pointer py-1">
               <input 
                 type="checkbox" 
-                className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                className="w-5 h-5 text-[#C92071] border-gray-300 rounded focus:ring-[#C92071] accent-[#C92071]"
                 checked={isChecked}
                 onChange={() => handleCheckboxChange('brand', brand)}
               />
-              {brand}
+              <span className={isChecked ? 'text-gray-800 font-medium' : 'text-gray-600'}>{brand}</span>
             </label>
             );
           })}
@@ -56,16 +54,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           {['Esporte e lazer', 'Casual', 'Utilitário', 'Corrida', 'Tênis', 'Acessórios'].map(cat => {
             const isChecked = filters.category?.includes(cat) || false;
             return (
-            <label key={cat} className={`flex items-center gap-2 text-sm cursor-pointer px-2 py-1 rounded ${
-              isChecked ? 'bg-primary bg-opacity-10 text-primary font-semibold' : 'text-gray-600'
-            }`}>
+            <label key={cat} className="flex items-center gap-2 text-sm cursor-pointer py-1">
               <input 
                 type="checkbox" 
-                className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                className="w-5 h-5 text-[#C92071] border-gray-300 rounded focus:ring-[#C92071] accent-[#C92071]"
                 checked={isChecked}
                 onChange={() => handleCheckboxChange('category', cat)}
               />
-              {cat}
+              <span className={isChecked ? 'text-gray-800 font-medium' : 'text-gray-600'}>{cat}</span>
             </label>
             );
           })}
@@ -78,16 +74,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           {['Masculino', 'Feminino', 'Unisex'].map(gender => {
             const isChecked = filters.gender?.includes(gender) || false;
             return (
-            <label key={gender} className={`flex items-center gap-2 text-sm cursor-pointer px-2 py-1 rounded ${
-              isChecked ? 'bg-primary bg-opacity-10 text-primary font-semibold' : 'text-gray-600'
-            }`}>
+            <label key={gender} className="flex items-center gap-2 text-sm cursor-pointer py-1">
               <input 
                 type="checkbox" 
-                className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
+                className="w-5 h-5 text-[#C92071] border-gray-300 rounded focus:ring-[#C92071] accent-[#C92071]"
                 checked={isChecked}
                 onChange={() => handleCheckboxChange('gender', gender)}
               />
-              {gender}
+              <span className={isChecked ? 'text-gray-800 font-medium' : 'text-gray-600'}>{gender}</span>
             </label>
             );
           })}
@@ -100,17 +94,15 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           {['Novo', 'Usado'].map(state => {
             const isChecked = filters.state?.includes(state) || false;
             return (
-            <label key={state} className={`flex items-center gap-2 text-sm cursor-pointer px-2 py-1 rounded ${
-              isChecked ? 'bg-primary bg-opacity-10 text-primary font-semibold' : 'text-gray-600'
-            }`}>
+            <label key={state} className="flex items-center gap-2 text-sm cursor-pointer py-1">
               <input 
                 type="radio" 
                 name="state"
-                className="w-4 h-4 text-primary border-gray-300 focus:ring-primary"
+                className="w-5 h-5 text-[#C92071] border-gray-300 focus:ring-[#C92071] accent-[#C92071]"
                 checked={isChecked}
                 onChange={() => handleRadioChange('state', state)}
               />
-              {state}
+              <span className={isChecked ? 'text-gray-800 font-medium' : 'text-gray-600'}>{state}</span>
             </label>
             );
           })}

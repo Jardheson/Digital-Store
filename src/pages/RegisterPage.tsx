@@ -31,7 +31,6 @@ export const RegisterPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle registration logic here
-    console.log('Registration attempt:', formData);
     navigate('/');
   };
 

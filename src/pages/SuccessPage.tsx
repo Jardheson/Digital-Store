@@ -57,7 +57,7 @@ export const SuccessPage: React.FC = () => {
   };
   const product = state.product ?? {
     name: 'Tênis Nike Revolution 6 Next Nature Masculino',
-    image: '/Layer 1aa 2.png',
+    image: '/images/products/Layer 1aa 2.png',
     total: 219,
   };
 
@@ -69,8 +69,8 @@ export const SuccessPage: React.FC = () => {
   };
 
   return (
-    <div className="bg-light-gray">
-      <div className="container mx-auto px-4 py-8">
+    <div className="bg-light-gray min-h-screen flex flex-col">
+      <div className="container mx-auto px-4 py-8 flex-grow">
         <div className="text-sm text-gray-500 mb-6 flex items-center gap-2">
           Home <span className="text-gray-400">/</span> Produtos <span className="text-gray-400">/</span> Sucesso
         </div>

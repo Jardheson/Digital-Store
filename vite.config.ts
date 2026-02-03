@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['images/icons/logo.png', 'images/icons/logo.svg'],
+      includeAssets: ['images/icons/Logo-D.png', 'images/icons/logo.svg'],
       devOptions: {
         enabled: true,
         type: 'module',
@@ -25,25 +25,25 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: '/images/icons/logo.png',
+            src: '/images/icons/Logo-D.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any'
           },
           {
-            src: '/images/icons/logo.png',
+            src: '/images/icons/Logo-D.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any'
           },
           {
-            src: '/images/icons/logo.png',
+            src: '/images/icons/Logo-D.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable'
           },
           {
-            src: '/images/icons/logo.png',
+            src: '/images/icons/Logo-D.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'
@@ -51,14 +51,14 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: '/images/icons/logo.png',
+            src: '/images/icons/Logo-D.png',
             sizes: '540x720',
             type: 'image/png',
             form_factor: 'narrow',
             label: 'Tela Inicial Mobile'
           },
           {
-            src: '/images/icons/logo.png',
+            src: '/images/icons/Logo-D.png',
             sizes: '1280x720',
             type: 'image/png',
             form_factor: 'wide',
