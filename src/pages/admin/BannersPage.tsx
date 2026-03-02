@@ -18,7 +18,7 @@ export const BannersPage: React.FC = () => {
 
   const addSlide = () => {
     const newSlide: Slide = {
-      id: Date.now(), // Temporary ID
+      id: Date.now(), 
       subtitle: 'Nova Oferta',
       title: 'Título do Banner',
       description: 'Descrição do banner...',
@@ -43,11 +43,6 @@ export const BannersPage: React.FC = () => {
   };
 
   const moveSlide = (index: number, direction: 'up' | 'down') => {
-    // Note: Reordering is complex with DB. For now we will just reorder locally and save.
-    // However, our table uses created_at ordering. To support custom ordering, we need an 'order' column.
-    // For this task, we will stick to created_at or just local reordering if not persisting order.
-    // Since the prompt asks for "database update", reordering might not persist if we don't have an order column.
-    // We will skip complex reordering persistence for now and focus on Content updates.
     
     const newSlides = [...slides];
     if (direction === 'up' && index > 0) {
@@ -73,21 +68,12 @@ export const BannersPage: React.FC = () => {
     setIsSaving(true);
     setMessage(null);
     try {
-      // Save all slides
-      // Ideally we should track which ones changed, but for now save all.
-      // Be careful with IDs. New slides have huge IDs. Existing ones have DB IDs.
+     
       
       const savePromises = slides.map(slide => saveSlide(slide));
       await Promise.all(savePromises);
       
       await refreshSettings();
-      // Reload local slides from settings to get correct IDs for new items
-      // (This is handled by the component re-rendering with new settings if we synced correctly,
-      // but here we are using local state 'slides'. We should sync local state with refreshed settings.)
-      
-      // We need to wait for refreshSettings to update the context, then update local state?
-      // Actually, refreshSettings updates the context. But this component initializes state once.
-      // We should probably rely on props or useEffect to sync state.
       
       setMessage({ type: 'success', text: 'Banners atualizados com sucesso!' });
     } catch (error) {
@@ -98,7 +84,6 @@ export const BannersPage: React.FC = () => {
     }
   };
   
-  // Sync state with settings when settings change (e.g. after refresh)
   React.useEffect(() => {
       setSlides(settings.slides || []);
   }, [settings.slides]);

@@ -1,6 +1,5 @@
 import { API_URL } from "./config";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const registerUser = async (userData: any) => {
   const response = await fetch(`${API_URL}/user`, {
     method: "POST",
@@ -20,7 +19,6 @@ export const registerUser = async (userData: any) => {
   return response.json();
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const loginUser = async (credentials: any) => {
   const response = await fetch(`${API_URL}/user/token`, {
     method: "POST",

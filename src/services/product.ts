@@ -96,7 +96,7 @@ export const saveProduct = async (product: Product) => {
   };
 
   try {
-    if (product.id && typeof product.id === 'number') {
+    if (product.id && typeof product.id === "number") {
       // Update
       const { data, error } = await supabase
         .from("products")
@@ -127,10 +127,7 @@ export const saveProduct = async (product: Product) => {
 
 export const deleteProduct = async (id: string | number) => {
   try {
-    const { error } = await supabase
-      .from("products")
-      .delete()
-      .eq("id", id);
+    const { error } = await supabase.from("products").delete().eq("id", id);
 
     if (error) throw error;
   } catch (error) {

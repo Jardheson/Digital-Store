@@ -82,7 +82,6 @@ export const SiteSettingsPage: React.FC = () => {
     if (fieldPath.includes(".")) {
       const [parent, child] = fieldPath.split(".");
       setFormData((prev) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const parentData = prev[parent as keyof typeof prev] as any;
         return {
           ...prev,

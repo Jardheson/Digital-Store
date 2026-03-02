@@ -11,7 +11,6 @@ export const CategoriesPage: React.FC = () => {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   
-  // Form State
   const [formData, setFormData] = useState<Partial<Category>>({
     name: '',
     status: 'Ativo'
@@ -65,7 +64,7 @@ export const CategoriesPage: React.FC = () => {
       } else {
         // Add
         const newCategory: Category = {
-          id: Date.now(), // Will be ignored/replaced by backend for insert logic heuristic
+          id: Date.now(), 
           name: formData.name || 'Nova Categoria',
           image: formData.image || '',
           status: formData.status as 'Ativo' | 'Inativo'
@@ -155,7 +154,6 @@ export const CategoriesPage: React.FC = () => {
                       </div>
                     </td>
                     <td className="hidden md:table-cell px-6 py-4 text-gray-600">
-                      {/* Deterministic count based on ID to avoid hydration mismatch */}
                       {10 + (category.id % 90)}
                     </td>
                     <td className="px-6 py-4">
@@ -188,8 +186,7 @@ export const CategoriesPage: React.FC = () => {
           </table>
         </div>
       </div>
-
-      {/* Modal */}
+      
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">

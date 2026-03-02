@@ -52,7 +52,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if we have a persisted mock session
     if (!isFirebaseInitialized || !auth) {
       const storedUser = localStorage.getItem("mockUser");
       if (storedUser) {
@@ -93,7 +92,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const login = async (email: string, pass: string) => {
-    // 1. Try hardcoded admin first (for safety/demo)
     if (email === "admin@digitalstore.com" && pass === "admin123") {
       const adminUser: User = {
         id: "admin-id",
@@ -108,13 +106,12 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return true;
     }
 
-    // 2. Try Supabase 'users' table
     try {
       const { data: foundUser, error } = await supabase
         .from("users")
         .select("*")
         .eq("email", email)
-        .eq("password", pass) // Note: In production, verify hash!
+        .eq("password", pass) 
         .single();
 
       if (foundUser) {
@@ -146,7 +143,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       console.warn("Supabase login failed, trying local storage or firebase", err);
     }
 
-    // 3. Fallback to LocalStorage (Legacy)
     const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
     const localUser = usersDb.find(
       (u: any) => u.email === email && u.password === pass,
@@ -163,7 +159,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return true;
     }
 
-    // 4. Fallback to Firebase
     if (auth) {
       try {
         await signInWithEmailAndPassword(auth, email, pass);
@@ -178,7 +173,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const socialLogin = async (provider: "google" | "facebook") => {
     if (!auth) {
-      // Mock Social Login
       await new Promise((resolve) => setTimeout(resolve, 1500));
       const mockUser: User = {
         id: `mock-${Date.now()}`,
@@ -208,7 +202,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const register = async (data: Partial<User> & { password?: string }) => {
-    // Check Supabase first for existence
     const { data: existingUser } = await supabase
         .from('users')
         .select('email')
@@ -222,7 +215,7 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const newUser = {
       name: data.name || data.email?.split("@")[0] || "User",
       email: data.email || "",
-      password: data.password, // Storing plain text for this demo/migration context
+      password: data.password, 
       phone: data.phone,
       address: data.address,
       bairro: data.bairro,
@@ -231,10 +224,9 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       role: "Cliente",
       status: "Ativo",
       provider: "email",
-      id: `user-${Date.now()}`, // Or let Supabase generate if UUID, but we used TEXT ID in migration
+      id: `user-${Date.now()}`, 
     };
 
-    // Save to Supabase
     try {
         const { error } = await supabase
             .from('users')
@@ -246,7 +238,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
     } catch (err) {
         console.warn("Supabase register failed, falling back to local", err);
-        // Fallback to local
         const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
         usersDb.push(newUser);
         localStorage.setItem("users_db", JSON.stringify(usersDb));
@@ -264,8 +255,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return true;
     } catch (error) {
       console.error("Registration error:", error);
-      // If firebase fails but we saved to DB, we might still want to return true or handle it?
-      // For now, consistent behavior: return true if we saved to DB effectively.
       return true;
     }
   };

@@ -11,21 +11,22 @@ O **Digital Store** é uma plataforma de e-commerce moderna, robusta e escaláve
 
 Este frontend foi construído seguindo os princípios de **Clean Architecture** adaptados para o ecossistema React, garantindo separação de responsabilidades, facilidade de manutenção e testabilidade.
 
+A plataforma agora conta com um **backend integrado via Supabase**, garantindo persistência de dados em tempo real e sincronização entre o painel administrativo e a loja.
+
 ---
 
 ## 🎨 Interface e Layout
 
 A interface foi projetada com foco em usabilidade e conversão, utilizando uma paleta de cores vibrante (Rosa Magenta #C92071) para CTAs e tipografia clara para hierarquia de informações.
 
-### � Mobile View
+### 📱 Mobile View
 Experiência otimizada para dispositivos móveis com navegação simplificada e elementos de toque amigáveis.
 
 <img width="250" height="500" alt="iPhone-XR-2018-traefbx94igd vercel app" src="https://github.com/user-attachments/assets/d458a7ab-1c6d-4bae-8b48-afd7dfa735d0" />
 
 **Destaques da Interface Mobile:**
 *   **Cabeçalho:** Menu hambúrguer acessível, busca rápida e carrinho sempre visível.
-
-*   **Banner Promocional:** Destaque visual com imagem de produto (ex: Sapato Oxford Verde) e copy persuasiva ("Queima de estoque Nike 🔥").
+*   **Banner Promocional:** Destaque visual gerenciável via Admin.
 *   **Navegação Inferior (Tab Bar):** Acesso rápido às seções principais: Home (ativo em Rosa), Buscar, Favoritos, Carrinho e Perfil.
 *   **Identidade Visual:** Uso estratégico da cor primária (Rosa Magenta) para indicar estado ativo e ações principais.
 
@@ -42,40 +43,21 @@ Layout responsivo que aproveita o espaço de tela para exibir mais informações
 
 ---
 
-## ♿ Acessibilidade
-
-O projeto foi desenvolvido seguindo as diretrizes WCAG (Web Content Accessibility Guidelines) para garantir que a plataforma seja utilizável por todas as pessoas, independentemente de suas habilidades.
-
-### Principais Recursos Implementados
-*   **Navegação Semântica**: Estrutura HTML correta (`<header>`, `<main>`, `<footer>`, `<nav>`, `<article>`) para facilitar a navegação por leitores de tela.
-*   **Gerenciamento de Foco**: Foco visível e ordem lógica de tabulação para navegação via teclado.
-*   **Labels e Descrições**: Todos os campos de formulário possuem labels associados (`htmlFor` + `id`) e botões de ícone possuem `aria-label` descritivos.
-*   **Contraste de Cores**: A paleta de cores foi testada para garantir legibilidade (ex: texto branco sobre fundo Rosa Magenta #C92071 passa nos critérios AA).
-*   **Imagens Acessíveis**: Atributos `alt` descritivos em imagens de conteúdo e `alt=""` em imagens decorativas.
-*   **Responsividade**: Layout fluido que se adapta a diferentes tamanhos de tela e níveis de zoom sem perda de funcionalidade.
-
----
-
 ## 🎛️ Painel Administrativo (Backoffice)
 
 O projeto inclui um **CMS completo** para gerenciamento da loja, permitindo que administradores controlem produtos, pedidos e conteúdo do site sem necessidade de alterar código.
 
 ### Funcionalidades do Admin
-*   **Dashboard**: Visão geral de métricas e indicadores.
+*   **Dashboard**: Visão geral de métricas (Vendas, Pedidos, Produtos, Usuários) com dados em tempo real do Supabase.
 *   **Catálogo**:
     *   Gerenciamento de Produtos (CRUD completo com variações de cor/tamanho).
-    *   Gestão de Categorias e Coleções.
-    *   Moderação de Avaliações (Reviews).
-*   **Vendas**: Visualização e alteração de status de pedidos.
+    *   Gestão de Categorias (Criação, Edição, Exclusão).
+    *   Gestão de Coleções em Destaque.
+*   **Vendas**: Visualização e alteração de status de pedidos (Processando, Enviado, Entregue, Cancelado).
 *   **Gestão de Conteúdo (CMS)**:
-    *   Editor de Páginas Institucionais (Sobre, Políticas).
-    *   Gerenciamento de Banners (Carrossel da Home).
-    *   Configuração de Ofertas Especiais e Coleções em Destaque.
-    *   Links do Rodapé.
-*   **Configurações**:
-    *   Personalização de temas e identidade visual.
-    *   Configurações de PWA (ícones, nome do app).
-    *   Ajustes de páginas de autenticação.
+    *   **Banners (Carrossel)**: Gerenciamento completo dos slides da Home.
+    *   **Configurações PWA**: Ativação/Desativação do banner de instalação do App.
+*   **Usuários**: Gestão completa de clientes e administradores.
 
 ---
 
@@ -88,6 +70,10 @@ O projeto utiliza um stack tecnológico de ponta, focado em performance e produt
 *   **[TypeScript](https://www.typescriptlang.org/)**: Superset JavaScript para tipagem estática e segurança de código.
 *   **[Vite](https://vitejs.dev/)**: Build tool de próxima geração para desenvolvimento rápido e bundles otimizados.
 
+### Backend & Dados
+*   **[Supabase](https://supabase.com/)**: Backend-as-a-Service (PostgreSQL) para banco de dados, autenticação e armazenamento.
+*   **Integração em Tempo Real**: Sincronização imediata entre Admin e Loja.
+
 ### Estilização e UI
 *   **[Tailwind CSS](https://tailwindcss.com/)**: Framework utility-first para estilização rápida e responsiva.
 *   **[Lucide React](https://lucide.dev/)**: Biblioteca de ícones leve e consistente.
@@ -97,7 +83,6 @@ O projeto utiliza um stack tecnológico de ponta, focado em performance e produt
 *   **Context API**: Gerenciamento de estado global (Carrinho, Autenticação, Configurações).
 
 ### Integrações e Serviços
-*   **Firebase/Supabase**: Integração para autenticação e banco de dados (Backend-as-a-Service).
 *   **PWA (Vite PWA)**: Capacidades offline, instalação no dispositivo e workers.
 
 ---
@@ -118,27 +103,27 @@ src/
 ├── 📂 context/         # Gerenciamento de estado global (Providers)
 ├── 📂 layouts/         # Layouts de página (MainLayout, AdminLayout)
 ├── 📂 pages/           # Páginas da aplicação organizadas por domínio
-│   ├── 📂 Public/      # Páginas públicas (Home, About, Blog)
-│   ├── 📂 Auth/        # Fluxos de autenticação (Login, Register)
-│   ├── 📂 Product/     # Visualização e listagem de produtos
-│   ├── 📂 Checkout/    # Fluxo de compra (Cart, Payment, Success)
-│   ├── 📂 User/        # Área do cliente (Profile, Orders)
-│   ├── 📂 Admin/       # Páginas do painel administrativo
-│   └── 📂 Legal/       # Termos e políticas
+│   ├── 📂 auth/        # Fluxos de autenticação (Login, Register)
+│   ├── 📂 admin/       # Páginas do painel administrativo (Dashboard, Products, Users...)
+│   ├── 📂 checkout/    # Fluxo de compra (Cart, Payment, Success)
+│   ├── 📂 product/     # Visualização e listagem de produtos
+│   └── ...             # Outras páginas (Home, About, etc.)
 ├── 📂 routes/          # Definição e configuração de rotas
 ├── 📂 services/        # Camada de comunicação com APIs externa
 │   ├── api.ts          # Configuração base do Axios/Fetch
 │   ├── auth.ts         # Serviços de autenticação
-│   └── product.ts      # Serviços de produtos
+│   ├── product.ts      # Serviços de produtos (Supabase Integration)
+│   ├── settings.ts     # Serviços de configurações (Banners, Categories via Supabase)
+│   └── supabase.ts     # Cliente Supabase
 ├── 📂 types/           # Definições de Tipos TypeScript (Interfaces)
 └── 📂 utils/           # Funções utilitárias e helpers
 ```
 
 ### Decisões de Engenharia
 
-1.  **Service Layer Pattern**: Toda a lógica de comunicação com o backend/API está isolada na pasta `services`. Os componentes da UI não fazem chamadas `fetch` diretas, eles consomem funções dos serviços. Isso permite trocar a fonte de dados (ex: de Mock para API Real) sem alterar a interface.
-2.  **Modularização de Páginas**: As páginas não estão jogadas na raiz de `pages`, mas agrupadas por contexto de negócio (`Auth`, `Checkout`, `Admin`).
-3.  **Context API para State Management**: Utilizamos Contexts para dados que precisam ser acessíveis globalmente, como o carrinho de compras (`CartContext`) e sessão do usuário (`AuthContext`), evitando *prop drilling*.
+1.  **Service Layer Pattern**: Toda a lógica de comunicação com o backend/API está isolada na pasta `services`. Os componentes da UI não fazem chamadas diretas ao banco, eles consomem funções dos serviços.
+2.  **Modularização de Páginas**: As páginas estão agrupadas por contexto de negócio (`Auth`, `Checkout`, `Admin`).
+3.  **Context API para State Management**: Utilizamos Contexts para dados que precisam ser acessíveis globalmente, como o carrinho de compras (`CartContext`), sessão do usuário (`AuthContext`) e configurações do site (`SettingsContext`).
 
 ---
 
@@ -156,11 +141,7 @@ src/
     ```
 
 2.  **Configuração de Variáveis de Ambiente**
-    Crie um arquivo `.env` na raiz do projeto baseando-se no `.env.example`.
-    ```env
-    VITE_API_URL=http://localhost:3000/v1
-    VITE_FIREBASE_API_KEY=...
-    ```
+    O projeto já está configurado para conectar ao projeto Supabase de demonstração. Se desejar usar seu próprio projeto, atualize `src/services/supabase.ts`.
 
 3.  **Executar em Desenvolvimento**
     Inicia o servidor local com Hot Module Replacement (HMR).
@@ -177,26 +158,13 @@ src/
 
 ---
 
-## 🛠️ Guia de Desenvolvimento
-
-### Adicionando uma Nova Página
-1.  Crie o componente da página em `src/pages/[Contexto]/NovaPagina.tsx`.
-2.  Adicione a rota em `src/routes/AppRoutes.tsx`.
-3.  Se necessário, adicione link no menu ou botões de navegação.
-
-### Adicionando um Novo Serviço
-1.  Defina a tipagem em `src/types`.
-2.  Crie ou edite um arquivo em `src/services` exportando a função assíncrona.
-3.  Consuma o serviço no componente utilizando `useEffect` ou handlers de eventos.
-
----
-
 ## 📱 Funcionalidades PWA
 
 Este projeto é uma **Progressive Web App**. Isso significa que ele:
 *   Pode ser instalado no Desktop e Mobile como um aplicativo nativo.
 *   Funciona offline (cache de assets e dados básicos).
 *   Possui manifesto de aplicativo configurado (`manifest.webmanifest`).
+*   **Controle via Admin**: A exibição do banner de instalação pode ser controlada remotamente pelo painel administrativo.
 
 ---
 

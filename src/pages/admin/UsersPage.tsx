@@ -65,7 +65,7 @@ export const UsersPage: React.FC = () => {
       if (error) throw error;
       
       if (data) {
-        // Map Supabase data to User interface if needed, currently 1:1 mostly
+        
         const mappedUsers: User[] = data.map(u => ({
             id: u.id,
             name: u.name,
@@ -84,7 +84,7 @@ export const UsersPage: React.FC = () => {
       }
     } catch (error) {
       console.error("Erro ao carregar usuários:", error);
-      // Fallback to local storage for demo continuity if DB fails
+      
       const storedUsers = localStorage.getItem("users_db");
       if (storedUsers) {
         setUsers(JSON.parse(storedUsers));
@@ -184,7 +184,7 @@ export const UsersPage: React.FC = () => {
         } else {
           const newUser = {
             ...userData,
-            id: `user-${Date.now()}` // Ideally use UUID or let DB generate, but keeping consistent
+            id: `user-${Date.now()}`  keeping consistent
           };
           const { error } = await supabase
             .from("users")

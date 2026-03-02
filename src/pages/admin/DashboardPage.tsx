@@ -45,12 +45,10 @@ export const DashboardPage: React.FC = () => {
 
   const loadStats = async () => {
     try {
-      // Products Count
       const { count: productsCount } = await supabase
         .from('products')
         .select('*', { count: 'exact', head: true });
 
-      // Users Count & Active
       const { data: users } = await supabase
         .from('users')
         .select('status');
@@ -58,7 +56,6 @@ export const DashboardPage: React.FC = () => {
       const totalUsers = users?.length || 0;
       const activeUsers = users?.filter(u => u.status === 'Ativo').length || 0;
 
-      // Orders Stats
       const { data: orders } = await supabase
         .from('orders')
         .select('*')
@@ -158,7 +155,7 @@ export const DashboardPage: React.FC = () => {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h2 className="font-bold text-gray-800 mb-4">Produtos Mais Vendidos</h2>
            <div className="space-y-4">
-             {/* Mock data for top selling as we don't have sales data per product in basic schema yet */}
+             
              {[
                { id: 1, name: 'Nike Air Jordan High', sales: 32, price: 499.90, image: '/images/products/product-thumb-1.jpeg' },
                { id: 2, name: 'Camiseta K-Swiss', sales: 28, price: 199.90, image: '/images/products/product-thumb-2.jpeg' },

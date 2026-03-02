@@ -12,7 +12,7 @@ export const AuthPagesSettings: React.FC = () => {
     if (settings.authPages) {
       setFormData(settings.authPages);
     } else {
-      // Fallback if authPages is missing from context
+      
       setFormData({
         login: {
           title: 'Acesse sua conta',
@@ -147,7 +147,7 @@ export const AuthPagesSettings: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Login Page Settings */}
+       
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
           <h2 className="font-bold text-gray-800 border-b border-gray-100 pb-2 text-lg">Página de Login</h2>
           
@@ -202,7 +202,7 @@ export const AuthPagesSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* Signup Page Settings */}
+       
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
           <h2 className="font-bold text-gray-800 border-b border-gray-100 pb-2 text-lg">Página de Cadastro (Sign Up)</h2>
           
@@ -257,7 +257,7 @@ export const AuthPagesSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* Social Login Settings */}
+      
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
           <h2 className="font-bold text-gray-800 border-b border-gray-100 pb-2 text-lg">Login Social (Gmail / Facebook)</h2>
           
@@ -273,7 +273,7 @@ export const AuthPagesSettings: React.FC = () => {
               />
             </div>
 
-            {/* Gmail Icon */}
+      
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Ícone Gmail</label>
               <div className="flex gap-4 items-start">
@@ -301,7 +301,7 @@ export const AuthPagesSettings: React.FC = () => {
               </div>
             </div>
 
-            {/* Facebook Icon */}
+       
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Ícone Facebook</label>
               <div className="flex gap-4 items-start">
@@ -331,7 +331,7 @@ export const AuthPagesSettings: React.FC = () => {
           </div>
         </div>
 
-        {/* Actions */}
+       
         <div className="flex justify-end gap-4 sticky bottom-4 bg-gray-100/80 backdrop-blur p-4 rounded-xl">
           <button
             type="button"

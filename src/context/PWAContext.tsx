@@ -59,9 +59,11 @@ export const PWAProvider: React.FC<{ children: React.ReactNode }> = ({
       );
   }, [settings.pwa.enabled]);
 
-  // Effect to handle toggle change when prompt is already deferred
   useEffect(() => {
-    if (deferredPrompt && !window.matchMedia("(display-mode: standalone)").matches) {
+    if (
+      deferredPrompt &&
+      !window.matchMedia("(display-mode: standalone)").matches
+    ) {
       if (settings.pwa.enabled) {
         setShowInstallPrompt(true);
       } else {

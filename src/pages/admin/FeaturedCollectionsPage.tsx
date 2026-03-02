@@ -11,7 +11,6 @@ export const FeaturedCollectionsPage: React.FC = () => {
   const [editingCollection, setEditingCollection] = useState<FeaturedCollection | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   
-  // Form State
   const [formData, setFormData] = useState<Partial<FeaturedCollection>>({
     title: '',
     discount: 0,
@@ -65,7 +64,7 @@ export const FeaturedCollectionsPage: React.FC = () => {
         } as FeaturedCollection);
       } else {
         const newCollection: FeaturedCollection = {
-          id: Date.now(), // Ignored by backend if using heuristic
+          id: Date.now(), 
           title: formData.title || 'Nova Coleção',
           discount: formData.discount || 0,
           image: formData.image || '',
@@ -97,7 +96,6 @@ export const FeaturedCollectionsPage: React.FC = () => {
     }
   };
   
-  // Sync state
   React.useEffect(() => {
       setCollections(settings.featuredCollections || []);
   }, [settings.featuredCollections]);
@@ -155,7 +153,6 @@ export const FeaturedCollectionsPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-xl shadow-lg w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">

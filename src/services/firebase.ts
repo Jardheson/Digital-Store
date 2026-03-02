@@ -15,14 +15,12 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Check if config is valid (at least apiKey is required)
 const isConfigValid = !!firebaseConfig.apiKey;
 
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
 
 if (isConfigValid) {
-  // Prevent multiple initializations
   if (!getApps().length) {
     app = initializeApp(firebaseConfig);
   } else {

@@ -165,7 +165,7 @@ export const ProductReviews: React.FC<ProductReviewsProps> = ({
         message: "Avaliação enviada com sucesso!",
         type: "success",
       });
-      // Notify parent component
+
       if (onReviewAdded) {
         onReviewAdded();
       }

@@ -67,7 +67,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     </h3>
 
                     <div className="flex items-end justify-between">
-                      {/* Quantity Controls */}
                       <div className="flex items-center border border-gray-300 rounded overflow-hidden h-8">
                         <button
                           onClick={() =>

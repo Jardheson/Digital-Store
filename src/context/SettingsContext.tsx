@@ -231,19 +231,16 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const fetchSupabaseData = async () => {
     try {
-      // Fetch Categories
       const { data: categories } = await supabase
         .from("categories")
         .select("*")
         .order("id", { ascending: true });
 
-      // Fetch Slides
       const { data: slides } = await supabase
         .from("slides")
         .select("*")
         .order("created_at", { ascending: true });
 
-      // Fetch Featured Collections
       const { data: collections } = await supabase
         .from("featured_collections")
         .select("*")

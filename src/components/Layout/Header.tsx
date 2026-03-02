@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, ShoppingCart, Menu, X, Heart, User, Download } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  Menu,
+  X,
+  Heart,
+  User,
+  Download,
+} from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { useFavorites } from "../../context/FavoritesContext";
 import { usePWA } from "../../context/PWAContext";
@@ -46,9 +54,12 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      const clickedOutsideDesktop = cartRef.current && !cartRef.current.contains(e.target as Node);
-      const clickedOutsideMobile = mobileCartRef.current && !mobileCartRef.current.contains(e.target as Node);
-      
+      const clickedOutsideDesktop =
+        cartRef.current && !cartRef.current.contains(e.target as Node);
+      const clickedOutsideMobile =
+        mobileCartRef.current &&
+        !mobileCartRef.current.contains(e.target as Node);
+
       if (clickedOutsideDesktop && clickedOutsideMobile) {
         setOpenCart(false);
       }
@@ -81,16 +92,24 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
         <div className="hidden lg:block">
           <div className="border-b border-gray-100">
             <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-              <Link to="/" className="flex-shrink-0" aria-label="Ir para página inicial">
-                <img 
-                  src={settings.logoUrl || "/images/icons/logo-header.svg"} 
-                  alt={`${settings.siteName} Logo`} 
-                  className="h-10 w-auto hover:opacity-80 transition-opacity" 
+              <Link
+                to="/"
+                className="flex-shrink-0"
+                aria-label="Ir para página inicial"
+              >
+                <img
+                  src={settings.logoUrl || "/images/icons/logo-header.svg"}
+                  alt={`${settings.siteName} Logo`}
+                  className="h-10 w-auto hover:opacity-80 transition-opacity"
                 />
               </Link>
 
               {variant === "default" && (
-                <form onSubmit={handleSearchSubmit} className="flex-1 max-w-md mx-8" role="search">
+                <form
+                  onSubmit={handleSearchSubmit}
+                  className="flex-1 max-w-md mx-8"
+                  role="search"
+                >
                   <div className="relative group">
                     <input
                       type="text"
@@ -100,7 +119,11 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
                       value={searchQuery}
                       onChange={handleSearchChange}
                     />
-                    <button type="submit" aria-label="Realizar busca" className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors">
+                    <button
+                      type="submit"
+                      aria-label="Realizar busca"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary transition-colors"
+                    >
                       <Search className="w-5 h-5" />
                     </button>
                   </div>
@@ -138,27 +161,42 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
                     {isAuthenticated && user ? (
                       <div className="flex items-center gap-4">
                         <div className="text-right hidden xl:block">
-                          <p className="text-sm font-bold text-gray-800">{user.name}</p>
-                          <Link to="/orders" className="text-xs text-primary hover:underline">
+                          <p className="text-sm font-bold text-gray-800">
+                            {user.name}
+                          </p>
+                          <Link
+                            to="/orders"
+                            className="text-xs text-primary hover:underline"
+                          >
                             Meus Pedidos
                           </Link>
                         </div>
                         <div className="relative group/user">
                           <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold cursor-pointer">
                             {user.avatar ? (
-                              <img src={user.avatar} alt={user.name} className="w-full h-full rounded-full object-cover" />
+                              <img
+                                src={user.avatar}
+                                alt={user.name}
+                                className="w-full h-full rounded-full object-cover"
+                              />
                             ) : (
                               <User className="w-5 h-5" />
                             )}
                           </div>
                           <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 hidden group-hover/user:block">
-                            <Link to="/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">
+                            <Link
+                              to="/orders"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary"
+                            >
                               Meus Pedidos
                             </Link>
-                            <Link to="/orders/info" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">
+                            <Link
+                              to="/orders/info"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary"
+                            >
                               Minha Conta
                             </Link>
-                            <button 
+                            <button
                               onClick={() => logout()}
                               className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                             >
@@ -201,7 +239,9 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
                       )}
                     </button>
 
-                    {openCart && <CartDropdown onClose={() => setOpenCart(false)} />}
+                    {openCart && (
+                      <CartDropdown onClose={() => setOpenCart(false)} />
+                    )}
                   </div>
                 </div>
               )}
@@ -242,15 +282,23 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
                 className="text-gray-700 hover:text-primary transition-colors p-2 -ml-2 rounded-full active:bg-gray-100"
                 aria-label="Menu"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
               </button>
             )}
 
-            <Link to="/" className="flex-shrink-0 absolute left-1/2 -translate-x-1/2" aria-label="Ir para página inicial">
-              <img 
-                src={settings.logoUrl || "/images/icons/logo-header.svg"} 
-                alt={`${settings.siteName} Logo`} 
-                className="h-6 w-auto" 
+            <Link
+              to="/"
+              className="flex-shrink-0 absolute left-1/2 -translate-x-1/2"
+              aria-label="Ir para página inicial"
+            >
+              <img
+                src={settings.logoUrl || "/images/icons/logo-header.svg"}
+                alt={`${settings.siteName} Logo`}
+                className="h-6 w-auto"
               />
             </Link>
 
@@ -277,7 +325,9 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
                       </span>
                     )}
                   </button>
-                  {openCart && <CartDropdown onClose={() => setOpenCart(false)} />}
+                  {openCart && (
+                    <CartDropdown onClose={() => setOpenCart(false)} />
+                  )}
                 </div>
               </div>
             )}
@@ -347,7 +397,11 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
                       <div className="flex items-center gap-3 px-2 mb-4">
                         <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center text-primary font-bold">
                           {user.avatar ? (
-                            <img src={user.avatar} alt={user.name} className="w-full h-full rounded-full object-cover" />
+                            <img
+                              src={user.avatar}
+                              alt={user.name}
+                              className="w-full h-full rounded-full object-cover"
+                            />
                           ) : (
                             <User className="w-5 h-5" />
                           )}
@@ -357,7 +411,7 @@ export const Header: React.FC<HeaderProps> = ({ variant = "default" }) => {
                           <p className="text-xs text-gray-500">{user.email}</p>
                         </div>
                       </div>
-                      <button 
+                      <button
                         onClick={() => {
                           logout();
                           setMobileMenuOpen(false);

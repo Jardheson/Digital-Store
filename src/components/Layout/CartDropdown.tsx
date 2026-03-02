@@ -15,7 +15,6 @@ export const CartDropdown: React.FC<CartDropdownProps> = ({ onClose }) => {
 
   return (
     <div className="absolute right-0 top-full mt-4 w-80 bg-white rounded shadow-[0_4px_20px_rgba(0,0,0,0.15)] z-50 animate-fade-in transform origin-top-right mr-2 md:mr-0">
-      {/* Seta do popover */}
       <div className="absolute -top-2 right-6 w-4 h-4 bg-white transform rotate-45 border-l border-t border-gray-100 z-10"></div>
 
       <div className="relative bg-white rounded-lg overflow-hidden border border-gray-100">
