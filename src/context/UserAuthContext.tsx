@@ -13,6 +13,7 @@ import {
   facebookProvider,
   isFirebaseInitialized,
 } from "../services/firebase";
+import { supabase } from "../services/supabase";
 
 export interface User {
   id: string;
@@ -51,7 +52,7 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if we have a persisted mock session (only if firebase is not active)
+    // Check if we have a persisted mock session
     if (!isFirebaseInitialized || !auth) {
       const storedUser = localStorage.getItem("mockUser");
       if (storedUser) {
@@ -92,23 +93,77 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const login = async (email: string, pass: string) => {
-    const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
-    const foundUser = usersDb.find(
-      (u: any) => u.email === email && u.password === pass,
-    );
-
-    if (foundUser) {
-      if (foundUser.status === "Inativo") {
-        alert("Esta conta foi desativada pelo administrador.");
-        return false;
-      }
-
-      const { password, ...userWithoutPass } = foundUser;
-      setUser(userWithoutPass);
-      localStorage.setItem("mockUser", JSON.stringify(userWithoutPass));
+    // 1. Try hardcoded admin first (for safety/demo)
+    if (email === "admin@digitalstore.com" && pass === "admin123") {
+      const adminUser: User = {
+        id: "admin-id",
+        name: "Administrador",
+        email: "admin@digitalstore.com",
+        role: "Admin",
+        status: "Ativo",
+        provider: "email",
+      };
+      setUser(adminUser);
+      localStorage.setItem("mockUser", JSON.stringify(adminUser));
       return true;
     }
 
+    // 2. Try Supabase 'users' table
+    try {
+      const { data: foundUser, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("email", email)
+        .eq("password", pass) // Note: In production, verify hash!
+        .single();
+
+      if (foundUser) {
+        if (foundUser.status === "Inativo") {
+          alert("Esta conta foi desativada pelo administrador.");
+          return false;
+        }
+
+        const { password, ...userWithoutPass } = foundUser;
+        const mappedUser: User = {
+           id: userWithoutPass.id,
+           name: userWithoutPass.name,
+           email: userWithoutPass.email,
+           phone: userWithoutPass.phone,
+           address: userWithoutPass.address,
+           bairro: userWithoutPass.bairro,
+           cidade: userWithoutPass.cidade,
+           cep: userWithoutPass.cep,
+           role: userWithoutPass.role as "Admin" | "Cliente",
+           status: userWithoutPass.status as "Ativo" | "Inativo",
+           provider: userWithoutPass.provider || "email",
+        };
+
+        setUser(mappedUser);
+        localStorage.setItem("mockUser", JSON.stringify(mappedUser));
+        return true;
+      }
+    } catch (err) {
+      console.warn("Supabase login failed, trying local storage or firebase", err);
+    }
+
+    // 3. Fallback to LocalStorage (Legacy)
+    const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
+    const localUser = usersDb.find(
+      (u: any) => u.email === email && u.password === pass,
+    );
+
+    if (localUser) {
+        if (localUser.status === "Inativo") {
+            alert("Esta conta foi desativada pelo administrador.");
+            return false;
+        }
+        const { password, ...userWithoutPass } = localUser;
+        setUser(userWithoutPass);
+        localStorage.setItem("mockUser", JSON.stringify(userWithoutPass));
+        return true;
+    }
+
+    // 4. Fallback to Firebase
     if (auth) {
       try {
         await signInWithEmailAndPassword(auth, email, pass);
@@ -116,18 +171,6 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } catch (error) {
         console.error("Login error:", error);
       }
-    }
-
-    if (email === "admin@digitalstore.com" && pass === "admin123") {
-      const adminUser = {
-        id: "admin-id",
-        name: "Administrador",
-        email: "admin@digitalstore.com",
-        provider: "email" as const,
-      };
-      setUser(adminUser);
-      localStorage.setItem("mockUser", JSON.stringify(adminUser));
-      return true;
     }
 
     return false;
@@ -165,17 +208,21 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const register = async (data: Partial<User> & { password?: string }) => {
-    const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
-
-    if (usersDb.some((u: any) => u.email === data.email)) {
-      return false;
+    // Check Supabase first for existence
+    const { data: existingUser } = await supabase
+        .from('users')
+        .select('email')
+        .eq('email', data.email)
+        .single();
+    
+    if (existingUser) {
+        return false;
     }
 
-    const newUser: any = {
-      id: `user-${Date.now()}`,
+    const newUser = {
       name: data.name || data.email?.split("@")[0] || "User",
       email: data.email || "",
-      provider: "email",
+      password: data.password, // Storing plain text for this demo/migration context
       phone: data.phone,
       address: data.address,
       bairro: data.bairro,
@@ -183,11 +230,27 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       cep: data.cep,
       role: "Cliente",
       status: "Ativo",
-      password: data.password, // Save password for mock auth
+      provider: "email",
+      id: `user-${Date.now()}`, // Or let Supabase generate if UUID, but we used TEXT ID in migration
     };
 
-    usersDb.push(newUser);
-    localStorage.setItem("users_db", JSON.stringify(usersDb));
+    // Save to Supabase
+    try {
+        const { error } = await supabase
+            .from('users')
+            .insert(newUser);
+        
+        if (error) {
+            console.error("Supabase register error:", error);
+            throw error;
+        }
+    } catch (err) {
+        console.warn("Supabase register failed, falling back to local", err);
+        // Fallback to local
+        const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
+        usersDb.push(newUser);
+        localStorage.setItem("users_db", JSON.stringify(usersDb));
+    }
 
     if (!auth) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -201,7 +264,8 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return true;
     } catch (error) {
       console.error("Registration error:", error);
-
+      // If firebase fails but we saved to DB, we might still want to return true or handle it?
+      // For now, consistent behavior: return true if we saved to DB effectively.
       return true;
     }
   };
@@ -223,15 +287,15 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const logout = async () => {
-    if (!auth) {
-      setUser(null);
-      localStorage.removeItem("mockUser");
-      return;
-    }
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Logout error:", error);
+    setUser(null);
+    localStorage.removeItem("mockUser");
+    
+    if (auth) {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
     }
   };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, Users, DollarSign, Package, Download } from 'lucide-react';
 import { ReportModal } from '../../components/Admin/ReportModal';
-import { useSettings } from '../../context/SettingsContext';
+import { supabase } from '../../services/supabase';
 
 const StatCard: React.FC<{
   title: string;
@@ -30,38 +30,57 @@ const StatCard: React.FC<{
 
 export const DashboardPage: React.FC = () => {
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
-  const { settings } = useSettings();
-  const [realStats, setRealStats] = useState({
-    usersCount: 0,
-    activeUsersCount: 0,
-    productsCount: 0
+  const [stats, setStats] = useState({
+    totalRevenue: 0,
+    totalOrders: 0,
+    totalUsers: 0,
+    activeUsers: 0,
+    totalProducts: 0,
+    recentOrders: [] as any[],
   });
 
   useEffect(() => {
-    const loadStats = () => {
-      const usersDb = JSON.parse(localStorage.getItem('users_db') || '[]');
-      const activeUsers = usersDb.filter((u: any) => u.status === 'Ativo').length;
-      
-      const productsDb = JSON.parse(localStorage.getItem('products_db') || '[]');
-      
-      setRealStats({
-        usersCount: usersDb.length,
-        activeUsersCount: activeUsers,
-        productsCount: productsDb.length
-      });
-    };
-    
     loadStats();
-    
-    window.addEventListener('storage', loadStats);
-    return () => window.removeEventListener('storage', loadStats);
   }, []);
 
-  const totalRevenue = settings.orders?.reduce((acc, order) => acc + order.total, 0) || 0;
-  const totalOrders = settings.orders?.length || 0;
-  const totalUsers = realStats.usersCount || settings.users?.length || 0;
-  const activeUsers = realStats.activeUsersCount || settings.users?.filter(u => u.status === 'Ativo').length || 0;
-  const totalProducts = realStats.productsCount || 48;
+  const loadStats = async () => {
+    try {
+      // Products Count
+      const { count: productsCount } = await supabase
+        .from('products')
+        .select('*', { count: 'exact', head: true });
+
+      // Users Count & Active
+      const { data: users } = await supabase
+        .from('users')
+        .select('status');
+      
+      const totalUsers = users?.length || 0;
+      const activeUsers = users?.filter(u => u.status === 'Ativo').length || 0;
+
+      // Orders Stats
+      const { data: orders } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      const totalOrders = orders?.length || 0;
+      const totalRevenue = orders?.reduce((acc, order) => acc + (Number(order.total) || 0), 0) || 0;
+      const recentOrders = orders?.slice(0, 5) || [];
+
+      setStats({
+        totalRevenue,
+        totalOrders,
+        totalUsers,
+        activeUsers,
+        totalProducts: productsCount || 0,
+        recentOrders
+      });
+
+    } catch (error) {
+      console.error('Error loading dashboard stats:', error);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -79,29 +98,29 @@ export const DashboardPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
           title="Vendas Totais" 
-          value={`R$ ${totalRevenue.toFixed(2).replace('.', ',')}`}
+          value={`R$ ${stats.totalRevenue.toFixed(2).replace('.', ',')}`}
           icon={DollarSign} 
           trend="+12.5%"
           color="text-green-600"
         />
         <StatCard 
           title="Pedidos" 
-          value={totalOrders.toString()}
+          value={stats.totalOrders.toString()}
           icon={ShoppingBag} 
           trend="+8.2%"
           color="text-blue-600"
         />
         <StatCard 
           title="Produtos" 
-          value={totalProducts.toString()}
+          value={stats.totalProducts.toString()}
           icon={Package} 
           color="text-orange-600"
         />
         <StatCard 
           title="Clientes" 
-          value={totalUsers.toString()}
+          value={stats.totalUsers.toString()}
           icon={Users} 
-          trend={`${activeUsers} ativos`}
+          trend={`${stats.activeUsers} ativos`}
           color="text-purple-600"
         />
       </div>
@@ -110,19 +129,19 @@ export const DashboardPage: React.FC = () => {
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h2 className="font-bold text-gray-800 mb-4">Vendas Recentes</h2>
           <div className="space-y-4">
-             {(settings.orders || []).slice(0, 5).map((order) => (
+             {stats.recentOrders.map((order) => (
                <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                  <div className="flex items-center gap-3">
                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
-                     {order.customer.substring(0, 2).toUpperCase()}
+                     {order.customer ? order.customer.substring(0, 2).toUpperCase() : '??'}
                    </div>
                    <div>
-                     <p className="text-sm font-medium text-gray-800">{order.customer}</p>
+                     <p className="text-sm font-medium text-gray-800">{order.customer || 'Cliente Desconhecido'}</p>
                      <p className="text-xs text-gray-500">{order.date}</p>
                    </div>
                  </div>
                  <div className="text-right">
-                   <p className="text-sm font-bold text-gray-800">R$ {order.total.toFixed(2).replace('.', ',')}</p>
+                   <p className="text-sm font-bold text-gray-800">R$ {Number(order.total).toFixed(2).replace('.', ',')}</p>
                    <p className={`text-xs ${
                      order.status === 'Entregue' ? 'text-green-600' : 
                      order.status === 'Cancelado' ? 'text-red-600' : 'text-blue-600'
@@ -130,12 +149,16 @@ export const DashboardPage: React.FC = () => {
                  </div>
                </div>
              ))}
+             {stats.recentOrders.length === 0 && (
+                <p className="text-gray-500 text-sm text-center py-4">Nenhuma venda recente.</p>
+             )}
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h2 className="font-bold text-gray-800 mb-4">Produtos Mais Vendidos</h2>
            <div className="space-y-4">
+             {/* Mock data for top selling as we don't have sales data per product in basic schema yet */}
              {[
                { id: 1, name: 'Nike Air Jordan High', sales: 32, price: 499.90, image: '/images/products/product-thumb-1.jpeg' },
                { id: 2, name: 'Camiseta K-Swiss', sales: 28, price: 199.90, image: '/images/products/product-thumb-2.jpeg' },

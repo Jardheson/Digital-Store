@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Filter, Edit, Trash2, X, Save } from 'lucide-react';
-import { useSettings } from '../../context/SettingsContext';
-import type { Order } from '../../context/SettingsContext';
+import { supabase } from '../../services/supabase';
+
+export interface Order {
+  id: string;
+  customer: string;
+  date: string;
+  total: number;
+  status: "Entregue" | "Enviado" | "Processando" | "Cancelado";
+}
 
 export const OrdersPage: React.FC = () => {
-  const { settings, updateSettings } = useSettings();
+  const [orders, setOrders] = useState<Order[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
+  const [loading, setLoading] = useState(true);
   
   const [formData, setFormData] = useState<Partial<Order>>({
     customer: '',
@@ -18,7 +26,27 @@ export const OrdersPage: React.FC = () => {
     date: new Date().toLocaleDateString('pt-BR')
   });
 
-  const orders = settings.orders || [];
+  useEffect(() => {
+    loadOrders();
+  }, []);
+
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      if (data) setOrders(data);
+    } catch (error) {
+      console.error('Error loading orders:', error);
+      // Fallback
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -63,26 +91,47 @@ export const OrdersPage: React.FC = () => {
     setEditingOrder(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (editingOrder) {
-      const updatedOrders = orders.map(ord => 
-        ord.id === editingOrder.id ? { ...ord, ...formData } as Order : ord
-      );
-      updateSettings({ orders: updatedOrders });
-    } else {
-      const newOrder = formData as Order;
-      updateSettings({ orders: [newOrder, ...orders] });
+    try {
+        if (editingOrder) {
+          const { error } = await supabase
+            .from('orders')
+            .update(formData)
+            .eq('id', editingOrder.id);
+            
+          if (error) throw error;
+        } else {
+          const newOrder = formData as Order;
+          const { error } = await supabase
+            .from('orders')
+            .insert(newOrder);
+            
+          if (error) throw error;
+        }
+        await loadOrders();
+        handleCloseModal();
+    } catch (error) {
+        console.error('Error saving order:', error);
+        alert('Erro ao salvar pedido');
     }
-    
-    handleCloseModal();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Tem certeza que deseja excluir este pedido?')) {
-      const updatedOrders = orders.filter(ord => ord.id !== id);
-      updateSettings({ orders: updatedOrders });
+      try {
+        const { error } = await supabase
+            .from('orders')
+            .delete()
+            .eq('id', id);
+        
+        if (error) throw error;
+        await loadOrders();
+      } catch (error) {
+          console.error('Error deleting order:', error);
+          alert('Erro ao excluir pedido');
+      }
     }
   };
 
@@ -171,7 +220,13 @@ export const OrdersPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredOrders.length === 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-10 text-center text-gray-500">
+                    Carregando pedidos...
+                  </td>
+                </tr>
+              ) : filteredOrders.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-10 text-center text-gray-500">
                     Nenhum pedido encontrado.

@@ -11,6 +11,7 @@ import {
   Lock,
   MapPin,
 } from "lucide-react";
+import { supabase } from "../../services/supabase";
 
 interface User {
   id: string;
@@ -32,6 +33,7 @@ export const UsersPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState<Partial<User>>({
     name: "",
@@ -49,25 +51,48 @@ export const UsersPage: React.FC = () => {
   const [loadingCep, setLoadingCep] = useState(false);
 
   useEffect(() => {
-    const loadUsers = () => {
+    loadUsers();
+  }, []);
+
+  const loadUsers = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("users")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      
+      if (data) {
+        // Map Supabase data to User interface if needed, currently 1:1 mostly
+        const mappedUsers: User[] = data.map(u => ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            password: u.password,
+            phone: u.phone,
+            address: u.address,
+            bairro: u.bairro,
+            cidade: u.cidade,
+            cep: u.cep,
+            role: u.role as "Admin" | "Cliente",
+            status: u.status as "Ativo" | "Inativo",
+            provider: u.provider
+        }));
+        setUsers(mappedUsers);
+      }
+    } catch (error) {
+      console.error("Erro ao carregar usuários:", error);
+      // Fallback to local storage for demo continuity if DB fails
       const storedUsers = localStorage.getItem("users_db");
       if (storedUsers) {
         setUsers(JSON.parse(storedUsers));
-      } else {
-        setUsers([]);
       }
-    };
-
-    loadUsers();
-
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === "users_db") {
-        loadUsers();
-      }
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const cep = e.target.value.replace(/\D/g, "");
@@ -93,11 +118,6 @@ export const UsersPage: React.FC = () => {
         setLoadingCep(false);
       }
     }
-  };
-
-  const saveUsersToStorage = (newUsers: User[]) => {
-    localStorage.setItem("users_db", JSON.stringify(newUsers));
-    setUsers(newUsers);
   };
 
   const filteredUsers = users.filter(
@@ -136,39 +156,65 @@ export const UsersPage: React.FC = () => {
     setEditingUser(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const userData = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        address: formData.address,
+        bairro: formData.bairro,
+        cidade: formData.cidade,
+        cep: formData.cep,
+        role: formData.role,
+        status: formData.status,
+        provider: 'email'
+    };
 
-    if (editingUser) {
-      const updatedUsers = users.map((u) =>
-        u.id === editingUser.id ? ({ ...u, ...formData } as User) : u,
-      );
-      saveUsersToStorage(updatedUsers);
-    } else {
-      const newUser: User = {
-        id: `user-${Date.now()}`,
-        name: formData.name || "Novo Usuário",
-        email: formData.email || "",
-        password: formData.password || "123456",
-        phone: formData.phone || "",
-        address: formData.address || "",
-        bairro: formData.bairro || "",
-        cidade: formData.cidade || "",
-        cep: formData.cep || "",
-        role: (formData.role as "Admin" | "Cliente") || "Cliente",
-        status: (formData.status as "Ativo" | "Inativo") || "Ativo",
-        provider: "email",
-      };
-      saveUsersToStorage([...users, newUser]);
+    try {
+        if (editingUser) {
+          const { error } = await supabase
+            .from("users")
+            .update(userData)
+            .eq("id", editingUser.id);
+            
+          if (error) throw error;
+        } else {
+          const newUser = {
+            ...userData,
+            id: `user-${Date.now()}` // Ideally use UUID or let DB generate, but keeping consistent
+          };
+          const { error } = await supabase
+            .from("users")
+            .insert(newUser);
+            
+          if (error) throw error;
+        }
+        
+        await loadUsers();
+        handleCloseModal();
+    } catch (error) {
+        console.error("Erro ao salvar usuário:", error);
+        alert("Erro ao salvar usuário. Verifique o console.");
     }
-
-    handleCloseModal();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm("Tem certeza que deseja excluir este usuário?")) {
-      const updatedUsers = users.filter((u) => u.id !== id);
-      saveUsersToStorage(updatedUsers);
+      try {
+        const { error } = await supabase
+            .from("users")
+            .delete()
+            .eq("id", id);
+            
+        if (error) throw error;
+        await loadUsers();
+      } catch (error) {
+        console.error("Erro ao excluir usuário:", error);
+        alert("Erro ao excluir usuário.");
+      }
     }
   };
 
@@ -229,7 +275,13 @@ export const UsersPage: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredUsers.length === 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-10 text-center text-gray-500">
+                    Carregando usuários...
+                  </td>
+                </tr>
+              ) : filteredUsers.length === 0 ? (
                 <tr>
                   <td
                     colSpan={5}
