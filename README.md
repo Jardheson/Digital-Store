@@ -1,4 +1,4 @@
-# 🛍️ Digital Store (Digital Collage)
+# 🛍️ Digital Store (Digital Store)
 
 > **Architected & Developed by Jardheson Oliveira**
 

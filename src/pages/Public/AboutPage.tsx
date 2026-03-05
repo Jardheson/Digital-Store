@@ -11,7 +11,7 @@ export const AboutPage: React.FC = () => {
               SOBRE NÓS
             </span>
             <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-              Conheça a <br /> Drip Store
+              Conheça a <br /> Digital Store
             </h1>
             <p className="text-gray-500 text-lg max-w-md leading-relaxed">
               Somos a sua loja online especializada em moda urbana e lifestyle.
@@ -40,7 +40,7 @@ export const AboutPage: React.FC = () => {
                     </span>
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    Drip Store
+                    Digital Store
                   </h3>
                   <p className="text-gray-600 text-sm">
                     Moda urbana e lifestyle para pessoas que buscam estilo e
@@ -190,7 +190,7 @@ export const AboutPage: React.FC = () => {
           </h2>
           <p className="text-lg mb-8 max-w-2xl mx-auto opacity-90">
             Junte-se a milhares de clientes que já descobriram a diferença da
-            Drip Store. Sua próxima peça favorita está esperando por você.
+            Digital Store. Sua próxima peça favorita está esperando por você.
           </p>
           <Link
             to="/products"
