@@ -20,10 +20,10 @@ const AdminAuthContext = createContext<AdminAuthContextType | undefined>(
 );
 
 const MOCK_ADMINS: AdminUser[] = [
-  { id: 1, name: "Jardheson", email: "jardheson@gmail.com", role: "admin" },
+  { id: 1, name: "Administrador", email: "admin@digitalstore.com", role: "admin" },
 ];
 
-const MOCK_PASS = "123456";
+const MOCK_PASS = "Admin@1234";
 
 export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -37,7 +37,7 @@ export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = async (email: string, pass: string) => {
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    if (email === "jardheson@gmail.com" && pass === MOCK_PASS) {
+    if (email === "admin@digitalstore.com" && pass === MOCK_PASS) {
       const admin = MOCK_ADMINS[0];
       setUser(admin);
       localStorage.setItem("adminUser", JSON.stringify(admin));

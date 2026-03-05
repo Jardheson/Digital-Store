@@ -92,7 +92,7 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const login = async (email: string, pass: string) => {
-    if (email === "admin@digitalstore.com" && pass === "admin123") {
+    if (email === "admin@digitalstore.com" && pass === "Admin@1234") {
       const adminUser: User = {
         id: "admin-id",
         name: "Administrador",
@@ -111,7 +111,7 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
         .from("users")
         .select("*")
         .eq("email", email)
-        .eq("password", pass) 
+        .eq("password", pass)
         .single();
 
       if (foundUser) {
@@ -122,17 +122,17 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
         const { password, ...userWithoutPass } = foundUser;
         const mappedUser: User = {
-           id: userWithoutPass.id,
-           name: userWithoutPass.name,
-           email: userWithoutPass.email,
-           phone: userWithoutPass.phone,
-           address: userWithoutPass.address,
-           bairro: userWithoutPass.bairro,
-           cidade: userWithoutPass.cidade,
-           cep: userWithoutPass.cep,
-           role: userWithoutPass.role as "Admin" | "Cliente",
-           status: userWithoutPass.status as "Ativo" | "Inativo",
-           provider: userWithoutPass.provider || "email",
+          id: userWithoutPass.id,
+          name: userWithoutPass.name,
+          email: userWithoutPass.email,
+          phone: userWithoutPass.phone,
+          address: userWithoutPass.address,
+          bairro: userWithoutPass.bairro,
+          cidade: userWithoutPass.cidade,
+          cep: userWithoutPass.cep,
+          role: userWithoutPass.role as "Admin" | "Cliente",
+          status: userWithoutPass.status as "Ativo" | "Inativo",
+          provider: userWithoutPass.provider || "email",
         };
 
         setUser(mappedUser);
@@ -140,7 +140,10 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return true;
       }
     } catch (err) {
-      console.warn("Supabase login failed, trying local storage or firebase", err);
+      console.warn(
+        "Supabase login failed, trying local storage or firebase",
+        err,
+      );
     }
 
     const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
@@ -149,14 +152,14 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 
     if (localUser) {
-        if (localUser.status === "Inativo") {
-            alert("Esta conta foi desativada pelo administrador.");
-            return false;
-        }
-        const { password, ...userWithoutPass } = localUser;
-        setUser(userWithoutPass);
-        localStorage.setItem("mockUser", JSON.stringify(userWithoutPass));
-        return true;
+      if (localUser.status === "Inativo") {
+        alert("Esta conta foi desativada pelo administrador.");
+        return false;
+      }
+      const { password, ...userWithoutPass } = localUser;
+      setUser(userWithoutPass);
+      localStorage.setItem("mockUser", JSON.stringify(userWithoutPass));
+      return true;
     }
 
     if (auth) {
@@ -203,19 +206,19 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const register = async (data: Partial<User> & { password?: string }) => {
     const { data: existingUser } = await supabase
-        .from('users')
-        .select('email')
-        .eq('email', data.email)
-        .single();
-    
+      .from("users")
+      .select("email")
+      .eq("email", data.email)
+      .single();
+
     if (existingUser) {
-        return false;
+      return false;
     }
 
     const newUser = {
       name: data.name || data.email?.split("@")[0] || "User",
       email: data.email || "",
-      password: data.password, 
+      password: data.password,
       phone: data.phone,
       address: data.address,
       bairro: data.bairro,
@@ -224,23 +227,21 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
       role: "Cliente",
       status: "Ativo",
       provider: "email",
-      id: `user-${Date.now()}`, 
+      id: `user-${Date.now()}`,
     };
 
     try {
-        const { error } = await supabase
-            .from('users')
-            .insert(newUser);
-        
-        if (error) {
-            console.error("Supabase register error:", error);
-            throw error;
-        }
+      const { error } = await supabase.from("users").insert(newUser);
+
+      if (error) {
+        console.error("Supabase register error:", error);
+        throw error;
+      }
     } catch (err) {
-        console.warn("Supabase register failed, falling back to local", err);
-        const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
-        usersDb.push(newUser);
-        localStorage.setItem("users_db", JSON.stringify(usersDb));
+      console.warn("Supabase register failed, falling back to local", err);
+      const usersDb = JSON.parse(localStorage.getItem("users_db") || "[]");
+      usersDb.push(newUser);
+      localStorage.setItem("users_db", JSON.stringify(usersDb));
     }
 
     if (!auth) {
@@ -278,7 +279,7 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = async () => {
     setUser(null);
     localStorage.removeItem("mockUser");
-    
+
     if (auth) {
       try {
         await signOut(auth);

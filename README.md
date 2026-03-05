@@ -22,7 +22,7 @@ A interface foi projetada com foco em usabilidade e conversão, utilizando uma p
 ### 📱 Mobile View
 Experiência otimizada para dispositivos móveis com navegação simplificada e elementos de toque amigáveis.
 
-<img width="250" height="500" alt="iPhone-XR-2018-traefbx94igd vercel app" src="https://github.com/user-attachments/assets/d458a7ab-1c6d-4bae-8b48-afd7dfa735d0" />
+<img width="240" height="500" alt="image" src="https://github.com/user-attachments/assets/b623f817-69b9-45c5-ba4b-afb42b49e21a" />
 
 **Destaques da Interface Mobile:**
 *   **Cabeçalho:** Menu hambúrguer acessível, busca rápida e carrinho sempre visível.
@@ -33,7 +33,7 @@ Experiência otimizada para dispositivos móveis com navegação simplificada e 
 ### 💻 Desktop View
 Layout responsivo que aproveita o espaço de tela para exibir mais informações e facilitar a navegação por categorias.
 
-<img width="3797" height="1816" alt="Captura de tela 2026-02-06 102523" src="https://github.com/user-attachments/assets/7ab08f3b-a719-43a6-833f-c3137c3b6986" />
+<img width="2760" height="1586" alt="image" src="https://github.com/user-attachments/assets/41089957-0f4a-475d-b64f-05519e390318" />
 
 **Destaques da Interface Desktop:**
 *   **Cabeçalho Expandido:** Barra de busca centralizada, acesso direto a "Minha Conta" e "Meus Pedidos".
@@ -58,6 +58,11 @@ O projeto inclui um **CMS completo** para gerenciamento da loja, permitindo que 
     *   **Banners (Carrossel)**: Gerenciamento completo dos slides da Home.
     *   **Configurações PWA**: Ativação/Desativação do banner de instalação do App.
 *   **Usuários**: Gestão completa de clientes e administradores.
+*   **Acesso Administrativo (Demo)**:
+    *   **URL**: `/admin/login`
+    *   **Email**: `admin@digitalstore.com`
+    *   **Senha**: `Admin@1234`
+    *   *(Credenciais já cadastradas e prontas para uso)*
 
 ---
 

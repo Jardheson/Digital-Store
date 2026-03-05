@@ -1,12 +1,8 @@
--- Seed Data for Digital Store
-
--- 1. Insert Admin User
 INSERT INTO public.users (id, name, email, password, role, status, provider, created_at)
 VALUES
-    ('admin-id-123', 'Administrador', 'admin@digitalstore.com', 'admin123', 'Admin', 'Ativo', 'email', NOW())
+    ('admin-id-123', 'Administrador', 'admin@digitalstore.com', 'Admin@1234', 'Admin', 'Ativo', 'email', NOW())
 ON CONFLICT (email) DO NOTHING;
 
--- 2. Insert Sample Categories
 INSERT INTO public.categories (name, image)
 VALUES
     ('Camisetas', '/images/icons/camiseta.svg'),
@@ -16,7 +12,6 @@ VALUES
     ('Tênis', '/images/icons/tenis.svg')
 ON CONFLICT DO NOTHING;
 
--- 3. Insert Sample Products (from db.json)
 INSERT INTO public.products (
     id, name, category, brand, price, price_discount, rating, images, description, gender, state, colors, sizes, created_at
 )
@@ -34,10 +29,8 @@ SET
     price_discount = EXCLUDED.price_discount,
     images = EXCLUDED.images;
 
--- Reset sequence for products to avoid ID conflicts with future inserts
 SELECT setval('public.products_id_seq', (SELECT MAX(id) FROM public.products));
 
--- 4. Insert Sample Orders
 INSERT INTO public.orders (id, customer, date, total, status, items, created_at)
 VALUES
     ('#12345', 'João da Silva', '04/02/2026', 499.90, 'Entregue', '[{"id": 1, "name": "Converse All Star", "price": 499.90, "quantity": 1}]'::jsonb, NOW() - INTERVAL '2 days'),
@@ -47,7 +40,6 @@ VALUES
     ('#12349', 'Carlos Pereira', '01/02/2026', 59.90, 'Entregue', '[{"id": 4, "name": "Bone", "price": 59.90, "quantity": 1}]'::jsonb, NOW() - INTERVAL '5 days')
 ON CONFLICT (id) DO NOTHING;
 
--- 5. Insert Sample Users (Customers)
 INSERT INTO public.users (id, name, email, password, role, status, provider, created_at)
 VALUES
     ('user-1', 'João da Silva', 'joao@email.com', '123456', 'Cliente', 'Ativo', 'email', NOW()),
