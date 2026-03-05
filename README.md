@@ -47,6 +47,11 @@ Layout responsivo que aproveita o espaço de tela para exibir mais informações
 
 O projeto inclui um **CMS completo** para gerenciamento da loja, permitindo que administradores controlem produtos, pedidos e conteúdo do site sem necessidade de alterar código.
 
+<div align="center">
+<img width="45%"  alt="image" src="https://github.com/user-attachments/assets/aabae1ad-a7ab-46ab-aed1-fb85a4844d94" />
+<img width="45%"  alt="image" src="https://github.com/user-attachments/assets/7387472b-0226-49c2-b2ed-c992d5c867ad" />
+</div>
+
 ### Funcionalidades do Admin
 *   **Dashboard**: Visão geral de métricas (Vendas, Pedidos, Produtos, Usuários) com dados em tempo real do Supabase.
 *   **Catálogo**:
