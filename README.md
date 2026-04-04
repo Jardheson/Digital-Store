@@ -1,11 +1,11 @@
-# 🛍️ Digital Store
+# Digital Store
 
 > **Architected & Developed by Jardheson Oliveira**
 
 ![Project Status](https://img.shields.io/badge/status-active-success.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-## 📖 Visão Geral do Projeto
+## Visão Geral do Projeto
 
 O **Digital Store** é uma plataforma de e-commerce moderna, robusta e escalável, desenvolvida como uma **Progressive Web Application (PWA)**. O projeto foca em oferecer uma experiência de usuário (UX) fluida, performance de alto nível e uma arquitetura de código limpa e modular.
 
@@ -15,11 +15,11 @@ A plataforma agora conta com um **backend integrado via Supabase**, garantindo p
 
 ---
 
-## 🎨 Interface e Layout
+## Interface e Layout
 
 A interface foi projetada com foco em usabilidade e conversão, utilizando uma paleta de cores vibrante (Rosa Magenta #C92071) para CTAs e tipografia clara para hierarquia de informações.
 
-### 📱 Mobile View
+### Mobile View
 Experiência otimizada para dispositivos móveis com navegação simplificada e elementos de toque amigáveis.
 
 <img width="240" height="500" alt="image" src="https://github.com/user-attachments/assets/b623f817-69b9-45c5-ba4b-afb42b49e21a" />
@@ -30,7 +30,7 @@ Experiência otimizada para dispositivos móveis com navegação simplificada e 
 *   **Navegação Inferior (Tab Bar):** Acesso rápido às seções principais: Home (ativo em Rosa), Buscar, Favoritos, Carrinho e Perfil.
 *   **Identidade Visual:** Uso estratégico da cor primária (Rosa Magenta) para indicar estado ativo e ações principais.
 
-### 💻 Desktop View
+### Desktop View
 Layout responsivo que aproveita o espaço de tela para exibir mais informações e facilitar a navegação por categorias.
 
 <img width="2760" height="1586" alt="image" src="https://github.com/user-attachments/assets/41089957-0f4a-475d-b64f-05519e390318" />
@@ -43,7 +43,7 @@ Layout responsivo que aproveita o espaço de tela para exibir mais informações
 
 ---
 
-## 🎛️ Painel Administrativo (Backoffice)
+## Painel Administrativo (Backoffice)
 
 O projeto inclui um **CMS completo** para gerenciamento da loja, permitindo que administradores controlem produtos, pedidos e conteúdo do site sem necessidade de alterar código.
 
@@ -71,7 +71,7 @@ O projeto inclui um **CMS completo** para gerenciamento da loja, permitindo que 
 
 ---
 
-## 🚀 Tecnologias e Ferramentas
+## Tecnologias e Ferramentas
 
 O projeto utiliza um stack tecnológico de ponta, focado em performance e produtividade:
 
@@ -97,36 +97,36 @@ O projeto utiliza um stack tecnológico de ponta, focado em performance e produt
 
 ---
 
-## 🏗️ Arquitetura e Estrutura do Frontend
+## Arquitetura e Estrutura do Frontend
 
 A estrutura de pastas foi refatorada para garantir escalabilidade e organização lógica. Abaixo, a explicação detalhada de cada diretório:
 
 ```bash
 src/
-├── 📂 assets/          # Recursos estáticos (imagens, svgs globais)
-├── 📂 components/      # Componentes reutilizáveis (Atomic Design adaptado)
-│   ├── 📂 Admin/       # Componentes específicos do painel administrativo
-│   ├── 📂 Layout/      # Estruturas de layout (Header, Footer, Sidebar)
-│   ├── 📂 Product/     # Cards, galerias e listagens de produtos
-│   ├── 📂 UI/          # Componentes de interface genéricos (Modais, Loaders)
-│   └── 📂 PWA/         # Componentes relacionados a funcionalidades PWA
-├── 📂 context/         # Gerenciamento de estado global (Providers)
-├── 📂 layouts/         # Layouts de página (MainLayout, AdminLayout)
-├── 📂 pages/           # Páginas da aplicação organizadas por domínio
-│   ├── 📂 auth/        # Fluxos de autenticação (Login, Register)
-│   ├── 📂 admin/       # Páginas do painel administrativo (Dashboard, Products, Users...)
-│   ├── 📂 checkout/    # Fluxo de compra (Cart, Payment, Success)
-│   ├── 📂 product/     # Visualização e listagem de produtos
+├── assets/          # Recursos estáticos (imagens, svgs globais)
+├── components/      # Componentes reutilizáveis (Atomic Design adaptado)
+│   ├── Admin/       # Componentes específicos do painel administrativo
+│   ├── Layout/      # Estruturas de layout (Header, Footer, Sidebar)
+│   ├── roduct/     # Cards, galerias e listagens de produtos
+│   ├── UI/          # Componentes de interface genéricos (Modais, Loaders)
+│   └── PWA/         # Componentes relacionados a funcionalidades PWA
+├── context/         # Gerenciamento de estado global (Providers)
+├── layouts/         # Layouts de página (MainLayout, AdminLayout)
+├── pages/           # Páginas da aplicação organizadas por domínio
+│   ├── auth/        # Fluxos de autenticação (Login, Register)
+│   ├── admin/       # Páginas do painel administrativo (Dashboard, Products, Users...)
+│   ├── checkout/    # Fluxo de compra (Cart, Payment, Success)
+│   ├── product/     # Visualização e listagem de produtos
 │   └── ...             # Outras páginas (Home, About, etc.)
-├── 📂 routes/          # Definição e configuração de rotas
-├── 📂 services/        # Camada de comunicação com APIs externa
+├── routes/          # Definição e configuração de rotas
+├── services/        # Camada de comunicação com APIs externa
 │   ├── api.ts          # Configuração base do Axios/Fetch
 │   ├── auth.ts         # Serviços de autenticação
 │   ├── product.ts      # Serviços de produtos (Supabase Integration)
 │   ├── settings.ts     # Serviços de configurações (Banners, Categories via Supabase)
 │   └── supabase.ts     # Cliente Supabase
-├── 📂 types/           # Definições de Tipos TypeScript (Interfaces)
-└── 📂 utils/           # Funções utilitárias e helpers
+├── types/           # Definições de Tipos TypeScript (Interfaces)
+└── utils/           # Funções utilitárias e helpers
 ```
 
 ### Decisões de Engenharia
@@ -137,7 +137,7 @@ src/
 
 ---
 
-## 💻 Como Executar o Projeto
+## Como Executar o Projeto
 
 ### Pré-requisitos
 *   Node.js (v16 ou superior)
@@ -168,7 +168,7 @@ src/
 
 ---
 
-## 📱 Funcionalidades PWA
+## Funcionalidades PWA
 
 Este projeto é uma **Progressive Web App**. Isso significa que ele:
 *   Pode ser instalado no Desktop e Mobile como um aplicativo nativo.
