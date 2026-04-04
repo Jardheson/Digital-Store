@@ -178,7 +178,7 @@ Este projeto é uma **Progressive Web App**. Isso significa que ele:
 
 ---
 
-## ✒️ Autor
+## Autor
 
 **Jardheson Oliveira**
 *Software Engineer*
