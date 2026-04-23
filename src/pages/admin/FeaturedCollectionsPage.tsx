@@ -256,10 +256,11 @@ export const FeaturedCollectionsPage: React.FC = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#C92071] text-white font-bold rounded-lg hover:bg-pink-700 transition-colors flex items-center gap-2"
+                  disabled={isSaving}
+                  className="px-4 py-2 bg-[#C92071] text-white font-bold rounded-lg hover:bg-pink-700 transition-colors flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <Save className="w-4 h-4" />
-                  Salvar
+                  {isSaving ? 'Salvando...' : 'Salvar'}
                 </button>
               </div>
             </form>

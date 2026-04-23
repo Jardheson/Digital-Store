@@ -114,6 +114,10 @@ export const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
         .eq("password", pass)
         .single();
 
+      if (error) {
+        throw error;
+      }
+
       if (foundUser) {
         if (foundUser.status === "Inativo") {
           alert("Esta conta foi desativada pelo administrador.");
